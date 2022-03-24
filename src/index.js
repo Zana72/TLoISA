@@ -3,11 +3,37 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { blue } from '@mui/material/colors';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: blue[500],
+    },
+  },
+  typography: {
+    h1: {
+      fontSize: "2.4rem",
+      marginBottom: "1rem"
+    },
+    h2: {
+      fontSize: "1.8rem",
+      marginBottom: "1rem"
+    },
+    h3: {
+      fontSize: "1.6rem",
+      marginBottom: "1rem"
+    }
+  }
+});
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <ThemeProvider theme={theme}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </ThemeProvider>,
   document.getElementById('root')
 );
 
