@@ -142,6 +142,10 @@ function App() {
     setActiveActivity(activityPair);
   }
 
+  const profile = <Profile goal={goal} metric={metric} activity={activeActivity.activity} 
+    behaviourChain={behaviourChains[activeActivity.id]} targetGroup={activeActivity.targetGroup}
+  />
+
   return (
     <BrowserRouter>
       <Box sx={{display: "flex"}}>
@@ -182,10 +186,7 @@ function App() {
                       <BehaviourChain activeActivity={activeActivity} behaviourChain={behaviourChains[activeActivity.id]}
                       addMotivator={addMotivator} addHurdle={addHurdle} addChainPart={addChainPart}
                 />} />
-                <Route path="profile" element={
-                      <Profile goal={goal} metric={metric} activity={activeActivity.activity} 
-                                behaviourChain={behaviourChains[activeActivity.id]} targetGroup={activeActivity.targetGroup}
-                      />} />
+                <Route path="profile" element={profile} />
                 <Route path="doesfit" element={
                       <GamificationFit behaviourChain={behaviourChains[activeActivity.id]}
                             targetActivity={activeActivity.activity} handleBcFit={handleBcFit}/>} />
@@ -193,12 +194,12 @@ function App() {
             <Route path="synthesis" element={<Synthesis/>}>
               <Route path="skillatom" element={
                       <SkillAtom synthesis={synthesis[activeActivity.id]} addItem={addSynthItem}
-                                  activityPair={activeActivity} 
+                                  activityPair={activeActivity} profile={profile}
                       />} />
               <Route path="identify" element={
                       <Identify synthesis={synthesis[activeActivity.id]}
                           targetActivity={activeActivity.activity} addProblem={addSynthProblem}
-                          updateProblem={updateSynthProblem}
+                          updateProblem={updateSynthProblem} profile={profile}
                       />} />
             </Route>
             <Route path="test" element={<DesignLens/>}/>

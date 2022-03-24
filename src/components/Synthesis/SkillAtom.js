@@ -1,9 +1,9 @@
 import React from 'react';
-import {Box, Typography} from '@mui/material';
-import { GolfCourse, Favorite, Kayaking, 
-    SettingsSuggest, ThumbUp, Hiking, DoubleArrow} from '@mui/icons-material';
+import {Box, Typography, Button} from '@mui/material';
+import { DoubleArrow} from '@mui/icons-material';
 import SkillAtomPart from './SkillAtomPart';
 import { skillAtomStatic } from '../../data/skillAtomStatic';
+import ShowProfile from './ShowProfile';
 
 export default function SkillAtom(props) {
 
@@ -23,6 +23,7 @@ export default function SkillAtom(props) {
             <Box>
                 <Typography variant="h2">Skill Atom</Typography>
                 <Typography variant="h3">Target Activity: {props.activityPair.activity} / {props.activityPair.targetGroup}</Typography>
+                <ShowProfile top="1rem" right="2rem" profile={props.profile}/>
                 <Box
                     sx={{
                         position: "relative", m: 5,

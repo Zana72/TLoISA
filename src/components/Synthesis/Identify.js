@@ -5,6 +5,7 @@ import SkillAtomPartStatic from './SkillAtomPartStatic';
 import { lensesData } from '../../data/designLenses';
 import DesignLens from './DesignLens';
 import { skillAtomStatic } from '../../data/skillAtomStatic';
+import ShowProfile from './ShowProfile';
 
 const types = [
     "challenges", 
@@ -76,6 +77,7 @@ export default function Identify(props) {
         return(
             <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
                 <Typography variant="h2">Identify Problems</Typography>
+                <ShowProfile top="1rem" right="2rem" profile={props.profile}/>
                 <Grid container>
                     <Grid item xs={4}>
                         <Box sx={{mr: 5}}>
@@ -88,15 +90,15 @@ export default function Identify(props) {
                     <Grid item xs={8}>
                         <Box sx={{m: "auto", display: "flex", flexDirection: "column"}}>
                             <Typography variant="h3">Skill Atom Part</Typography>
-                            <Box sx={{display: "flex"}}>
-                                <Button onClick={setPrevType} variant="contained" startIcon={<ArrowBack/>}>{types[getPrevType()]}</Button>
+                            <Box sx={{display: "flex", width: "100%", justifyContent: "space-evenly"}}>
+                                <Button sx={{width: "10rem"}} onClick={setPrevType} variant="contained" startIcon={<ArrowBack/>}>{types[getPrevType()]}</Button>
                                 <SkillAtomPartStatic
                                     title={skillAtomStatic[types[activeType]].title}
                                     info={skillAtomStatic[types[activeType]].info}
                                     points={points}
                                     icon={skillAtomStatic[types[activeType]].icon}
                                 />
-                                <Button onClick={setNextType} variant="contained" endIcon={<ArrowForward/>}>{types[getNextType()]}</Button>
+                                <Button sx={{width: "10rem"}} onClick={setNextType} variant="contained" endIcon={<ArrowForward/>}>{types[getNextType()]}</Button>
                             </Box>
 
                         </Box>
