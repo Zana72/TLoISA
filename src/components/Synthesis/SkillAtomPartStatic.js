@@ -59,7 +59,7 @@ export default function SkillAtomPartStatic(props) {
     }
 
     return(
-        <Card sx={{height: "13rem", width: "15rem", overflow: "auto"}}
+        <Card sx={{height: "13rem", width: "15rem", overflowY: "auto"}}
                 elevation={8}
         >
         <CardHeader 
@@ -74,7 +74,7 @@ export default function SkillAtomPartStatic(props) {
         />
         <Divider/>
         <CardContent>
-            <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+            <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", overflow: "auto"}}>
                 {renderBulletPoints()}
             </Box>
         </CardContent>

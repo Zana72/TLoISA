@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import BehaviourPart from '../../data/Structs/BehaviourPart';
+import BehaviourPart from '../data/Structs/BehaviourPart';
 
 const addMotivatorToBC = (state, activeId, motivator, uid) => {
     const bcCopy = JSON.parse(JSON.stringify(state));

@@ -50,7 +50,7 @@ export default function NavBar(props) {
             </Box>
             <Typography sx={entryStyle}>Ideation</Typography>
             <Box sx={{ml:2, mb: 2}}>
-                <Typography sx={entryStyleClickable}>Focus Questions</Typography>
+                <Typography sx={entryStyleClickable} onClick={() => handleNavigation("/ideation/focusquestions")}>Focus Questions</Typography>
                 <Typography sx={entryStyleClickable}>Cluster Ideas</Typography>
             </Box>
         </Paper>

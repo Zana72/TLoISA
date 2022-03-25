@@ -18,12 +18,14 @@ import ActivitiesPrioritize from './components/Strategy/ActivitiesPrioritize';
 import { v4 as uuidv4 } from 'uuid';
 import Profile from './components/Research/Profile';
 import GamificationFit from './components/Research/GamificationFit';
-import { bcsReducer } from './components/Reducers/BehaviourChains';
-import { synthReducer } from './components/Reducers/Synthesis';
+import { bcsReducer } from './Reducers/BehaviourChains';
+import { synthReducer } from './Reducers/Synthesis';
 import SkillAtom from './components/Synthesis/SkillAtom';
 import Synthesis from './components/Synthesis/Synthesis';
 import Identify from './components/Synthesis/Identify';
 import DesignLens from './components/Synthesis/DesignLens';
+import Ideation from './components/Ideation/Ideation';
+import FocusQuestions from './components/Ideation/FocusQuestions';
 
 function App() {
 
@@ -202,7 +204,14 @@ function App() {
                           updateProblem={updateSynthProblem} profile={profile}
                       />} />
             </Route>
-            <Route path="test" element={<DesignLens/>}/>
+            <Route path="ideation" element={<Ideation/>}>
+                <Route path="focusquestions" element={
+                        <FocusQuestions synthesis={synthesis[activeActivity.id]}
+                        />} 
+                />
+                <Route path="clusterin" element={null} />
+            </Route>
+            <Route path="test" element={<DesignLens/> }/>
             <Route
               path="*"
               element={

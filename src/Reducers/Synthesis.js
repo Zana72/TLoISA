@@ -1,4 +1,4 @@
-import { SynthProblems } from "../../data/Structs/SynthProblems";
+import { SynthProblems } from "../data/Structs/SynthProblems";
 
 const addTargetActivity = (state, activeId) => {
     if (activeId && !state[activeId]) {

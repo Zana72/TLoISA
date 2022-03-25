@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Delete, Hiking, ArrowBack, ArrowForward } from '@mui/icons-material';
+import { Delete, ArrowBack, ArrowForward } from '@mui/icons-material';
 import { Typography, Box, Button, Grid, TextField, IconButton } from '@mui/material';
 import SkillAtomPartStatic from './SkillAtomPartStatic';
 import { lensesData } from '../../data/designLenses';
