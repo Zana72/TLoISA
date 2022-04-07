@@ -30,6 +30,12 @@ export const lensesData = {
                 "How might the user experience success in the first minute?",
                 "What is the core goal-action-feedback loop of your system? How might the user learn it by doing it in the first minute?"
             ]
+        },
+        {
+            title: "General challenge",
+            motivator: "ANY",
+            description: "Anything that does not fit the proposed design lenses but fits into challenge",
+            questions: []
         }
     ],
     motivations: [
@@ -44,6 +50,12 @@ export const lensesData = {
                 "How might you reward the user's success with more potent tools & content?",
                 "How might you reward the user's success with in general, satisfying the driving motivation & emotion?"
             ]
+        },
+        {
+            title: "General motivation",
+            motivator: "ANY",
+            description: "Anything that does not fit the proposed design lenses but fits into motivation",
+            questions: []
         }
     ],
     goals: [
@@ -107,6 +119,12 @@ export const lensesData = {
                 "How might you allow users to take and adapt what others did?"
             ]
         },
+        {
+            title: "General goal",
+            motivator: "ANY",
+            description: "Anything that does not fit the proposed design lenses but fits into goal",
+            questions: []
+        }
     ],
     actions: [
         {
@@ -182,9 +200,22 @@ export const lensesData = {
                 "Digital: How might you make clicking, swiping, typing 'tactile'?",
                 "Physical: How might out object be a joy to touch, listen to, look at?"
             ]
+        },
+        {
+            title: "General actions & objects",
+            motivator: "ANY",
+            description: "Anything that does not fit the proposed design lenses but fits into actions & objects",
+            questions: []
         }
     ],
-    rules: [],
+    rules: [
+        {
+            title: "General rules",
+            motivator: "ANY",
+            description: "Anything that fits into rules",
+            questions: []
+        }
+    ],
     feedback: [
         {
             title: "Immediate",
@@ -260,6 +291,12 @@ export const lensesData = {
                 "How might you make sensual, tactile what the user has already achieved?",
                 "How might you use progress indicators to suggest next goals to the user?"
             ]
+        },
+        {
+            title: "General feedback",
+            motivator: "ANY",
+            description: "Anything that does not fit the proposed design lenses but fits into feedback",
+            questions: []
         }
     ]
 }

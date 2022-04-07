@@ -46,6 +46,8 @@ function ExplanationHelper(props) {
 
 export default function SkillAtomPart(props) {
 
+    const [dynamicElevation, setDynamicElevation] = useState(4);
+
     const renderBulletPoints = () => {
 
         let elements = [];
@@ -59,27 +61,58 @@ export default function SkillAtomPart(props) {
         return elements;
     }
 
-    return(
-        <Card sx={{position: "absolute", height: "13rem", width: "15rem", top: props.top, left: props.left, overflow: "auto"}}
-                elevation={8}
-        >
-        <CardHeader 
-            title={props.title}
-            action={
-                <ExplanationHelper 
-                    info={props.info}
-                />}
-            avatar={props.icon}
-            
-        />
-        <Divider/>
-        <CardContent>
-            {renderBulletPoints()}
-            {
-                !props.textOnly && 
-                <AddText placeholder={props.addPlaceholder} onAdd={props.addPoint}/>
-            }
-        </CardContent>
-    </Card>
-    )
+    const handleActivation = () => {
+        props.onClick();
+        setDynamicElevation(4);
+    }
+
+    if (props.isActive) {
+        return(
+            <Card sx={{position: "absolute", height: "13rem", width: "15rem", top: props.top, left: props.left, overflow: "auto"}}
+                    elevation={8}
+            >
+                <CardHeader 
+                    title={props.title}
+                    action={
+                        <ExplanationHelper 
+                            info={props.info}
+                        />}
+                    avatar={props.icon}
+                    
+                />
+                <Divider/>
+                <CardContent>
+                    {renderBulletPoints()}
+                    {
+                        !props.textOnly && 
+                        <AddText placeholder={props.addPlaceholder} onAdd={props.addPoint}/>
+                    }
+                </CardContent>
+            </Card>
+        )
+    } else {
+        return (
+            <Card sx={{position: "absolute", height: "13rem", 
+                        width: "15rem", top: props.top, left: props.left, 
+                        overflow: "auto",     "&:hover": {cursor: "pointer"},
+                    }}
+                elevation={dynamicElevation} onMouseOver={() => setDynamicElevation(8)} onMouseLeave={() => setDynamicElevation(4)}
+                onClick={handleActivation}
+            >
+                <CardHeader 
+                    title={props.title}
+                    action={
+                        <ExplanationHelper 
+                            info={props.info}
+                        />}
+                    avatar={props.icon}
+                    
+                />
+                <Divider/>
+                <CardContent>
+                    {renderBulletPoints()}
+                </CardContent>
+            </Card>
+        )
+    }
 }
