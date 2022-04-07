@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Typography, Button} from '@mui/material';
+import {Box, Typography} from '@mui/material';
 import { DoubleArrow} from '@mui/icons-material';
 import SkillAtomPart from './SkillAtomPart';
 import { skillAtomStatic } from '../../data/skillAtomStatic';

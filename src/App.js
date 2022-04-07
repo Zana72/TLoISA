@@ -8,14 +8,12 @@ import Strategy from './components/Strategy/Strategy';
 import GoalsAndMetrics from './components/Strategy/GoalsAndMetrics';
 import Home from './components/Home';
 import GroupAndActivities from './components/Strategy/GroupAndActivities';
-import { activityTargetPair } from './data/Structs/ActivityTargetPair';
 import { Box } from '@mui/material';
 import NavBar from './components/Main/NavBar';
 import Research from './components/Research/Research';
 import BehaviourChain from './components/Research/BehaviourChain';
 import ActivitiesCollect from './components/Strategy/ActivitiesCollect';
 import ActivitiesPrioritize from './components/Strategy/ActivitiesPrioritize';
-import { v4 as uuidv4 } from 'uuid';
 import Profile from './components/Research/Profile';
 import GamificationFit from './components/Research/GamificationFit';
 import { bcsReducer } from './Reducers/BehaviourChains';
@@ -26,35 +24,118 @@ import Identify from './components/Synthesis/Identify';
 import DesignLens from './components/Synthesis/DesignLens';
 import Ideation from './components/Ideation/Ideation';
 import FocusQuestions from './components/Ideation/FocusQuestions';
+import { atpReducer } from './Reducers/ActivityTargetPair';
+import UserResearch from './components/Research/UserResearch';
+import ideasReducer from './Reducers/IdeasReducer';
+import Clustering from './components/Ideation/Clustering';
+import canvasReducer from './Reducers/CanvasReducer';
 
 function App() {
 
-  const [goal, setGoal] = useState("");
-  const [metric, setMetric] = useState("");
-  const [activities, setActivities] = useState([]);
-  const [targetGroups, setTargetGroups] = useState([]);
-  const [contexts, setContexts] = useState([]);
-  const [requirements, setRequirements] = useState([]);
+  const localGoal = localStorage.getItem("goal");
+  const localMetric = localStorage.getItem("metric");
+  const localActivities = localStorage.getItem("activities");
+  const localTargetGroups = localStorage.getItem("targetGroups");
+  const localActiveActivity = localStorage.getItem("activeActivity");
+  const localBehaviourChains = localStorage.getItem("behaviourChains");
+  const localSynthesis = localStorage.getItem("synthesis");
+  const localActivityTargetPairs = localStorage.getItem("activityTargetPairs");
+  const localIdeas = localStorage.getItem("ideas");
+  const localCanvas = localStorage.getItem("canvas");
+
+  const [goal, setGoal] = useState(localGoal ? localGoal : "");
+  const [metric, setMetric] = useState(localMetric ? localMetric : "");
+  const [activities, setActivities] = useState(localActivities ? JSON.parse(localActivities) : []);
+  const [targetGroups, setTargetGroups] = useState(localTargetGroups ? JSON.parse(localTargetGroups) : []);
+  // const [contexts, setContexts] = useState([]);
+  // const [requirements, setRequirements] = useState([]);
   
-  const [activeActivity, setActiveActivity] = useState({});
+  const [activeActivity, setActiveActivity] = useState(localActiveActivity ? JSON.parse(localActiveActivity) : {});
   
-  const [behaviourChains, bcsDispatch] = useReducer(bcsReducer, {});
-  const [synthesis, synthDispatch] = useReducer(synthReducer, {});
+  const [behaviourChains, bcsDispatch] = useReducer(bcsReducer, localBehaviourChains ? JSON.parse(localBehaviourChains) : {});
+  const [synthesis, synthDispatch] = useReducer(synthReducer, localSynthesis ? JSON.parse(localSynthesis) : {});
+  const [activityTargetPairs, atpDispatch] = useReducer(atpReducer, localActivityTargetPairs ? JSON.parse(localActivityTargetPairs) : []);
+  const [ideas, ideasDispatch] = useReducer(ideasReducer, localIdeas ? JSON.parse(localIdeas) : {});
+  const [canvas, canvasDispatch] = useReducer(canvasReducer, localCanvas ? JSON.parse(localCanvas) : {});
+
+  useEffect(() => {
+    localStorage.setItem("ideas", JSON.stringify(ideas));
+  }, [ideas])
+
+  useEffect(() => {
+    updateCanvasElems(activeActivity.id, flattenIdeas(activeActivity.id, ideas), "idea");
+  }, [ideas, activeActivity])
+
+  useEffect(() => {
+    localStorage.setItem("canvas", JSON.stringify(canvas));
+  }, [canvas])
+
+  useEffect(() => {
+    localStorage.setItem("behaviourChains", JSON.stringify(behaviourChains));
+  }, [behaviourChains])
+
+  useEffect(() => {
+    localStorage.setItem("synthesis", JSON.stringify(synthesis));
+  }, [synthesis])
+
+  useEffect(() => {
+    localStorage.setItem("activityTargetPairs", JSON.stringify(activityTargetPairs));
+  }, [activityTargetPairs])
+
+  useEffect(() => {
+    addSynthTargetActivity(activeActivity.id);
+    initCanvas(activeActivity.id);
+    localStorage.setItem("activeActivity", JSON.stringify(activeActivity));
+  }, [activeActivity])
+
+  useEffect(() => {
+    localStorage.setItem("goal", goal);
+  }, [goal])
+
+  useEffect(() => {
+    localStorage.setItem("metric", metric);
+  }, [metric])
+
+  useEffect(() => {
+    localStorage.setItem("activities", JSON.stringify(activities));
+  }, [activities])
+
+  useEffect(() => {
+    localStorage.setItem("targetGroups", JSON.stringify(targetGroups));
+  }, [targetGroups])
 
   const addChainPart = (name) => {
     bcsDispatch({type: "ADDPART", activeId: activeActivity.id, name: name});
   }
 
-  const addMotivator = (motivator, uid) => {
-    bcsDispatch({type: "ADDMOTIV", activeId: activeActivity.id, motivator: motivator, uid: uid});
+  const addMotivator = (motivator, prio) => {
+    bcsDispatch({type: "ADDMOTIV", activeId: activeActivity.id, motivator: motivator, prio: prio});
   }
 
-  const addHurdle = (hurdle, uid) => {
-    bcsDispatch({type: "ADDHURDLE", activeId: activeActivity.id, hurdle: hurdle, uid: uid});
+  const addHurdle = (hurdle, prio) => {
+    bcsDispatch({type: "ADDHURDLE", activeId: activeActivity.id, hurdle: hurdle, prio: prio});
   }
 
-  const handleBcFit = (id, fitAnswerItr, value) => {
-    bcsDispatch({type: "CHANGEFIT", activeId: activeActivity.id, id: id, fitAnswerItr: fitAnswerItr, value: value});
+  const handleBcFit = (prio, fitAnswerItr, value) => {
+    console.log(prio, fitAnswerItr);
+    bcsDispatch({type: "CHANGEFIT", activeId: activeActivity.id, prio: prio, fitAnswerItr: fitAnswerItr, value: value});
+  }
+  
+  const handleBcSwap = (pos, direction) => {
+    const bcLength = behaviourChains[activeActivity.id].length;
+    if (direction === "right") {
+      if (pos < bcLength - 1) {
+        bcsDispatch({type: "SWAP", activeId: activeActivity.id, prio1: pos, prio2: parseInt(pos) + 1});
+      } else {
+        bcsDispatch({type: "SWAP", activeId: activeActivity.id, prio1: pos, prio2: 0});
+      }
+    } else {
+      if (pos > 0) {
+        bcsDispatch({type: "SWAP", activeId: activeActivity.id, prio1: pos, prio2: parseInt(pos) - 1});
+      } else {
+        bcsDispatch({type: "SWAP", activeId: activeActivity.id, prio1: pos, prio2: bcLength - 1});
+      }
+    }
   }
 
   const addSynthTargetActivity = (activityId) => {
@@ -73,63 +154,44 @@ function App() {
     synthDispatch({type: "UpdateProblem", activeId: activeActivity.id, designlensId: designlensId, pos: pos, text: text});
   }
 
-  useEffect(() => {
-    addSynthTargetActivity(activeActivity.id);
-  }, [activeActivity])
-
-  const generateActivityPairs = () => {
-
-    let state = [];
-
-    let prio = 0;
-    for (let targetGroup of targetGroups) {
-      for (let activity of activities) {
-        state.push(
-            activityTargetPair(uuidv4(), prio, targetGroup, activity)
-        )
-        prio = prio+1;
-      }
-    }
-
-    return state;
-  }
-
-  const swapActivityPair = (state, prio1, prio2) => {
-
-    let newState = JSON.parse(JSON.stringify(state));
-    console.log(newState);
-    console.log(state);
-
-    // swap entries (for table order)
-    newState[prio1] = JSON.parse(JSON.stringify(state[prio2]));
-    newState[prio2] = JSON.parse(JSON.stringify(state[prio1]));
-
-    for (let index in newState) {
-      newState[index].priority = index;
-    }
-
-    return newState;
-  }
-
-  const atpReducer = (state, action) => {
-    switch(action.type) {
-      case "SWAP":
-        return swapActivityPair(state, action.prio1, action.prio2);
-      case "INIT":
-        return generateActivityPairs();
-      default:
-        return state;
-    } 
-  }
-  
-  const [activityTargetPairs, atpDispatch] = useReducer(atpReducer, []);
-
   const handleSwapAtp = (prio1, prio2) => {
     atpDispatch({type: "SWAP", prio1: prio1, prio2: prio2})
   }
 
   const handleInitAtp = () => {
-    atpDispatch({type: "INIT"})
+    atpDispatch({type: "INIT", targetGroups: targetGroups, activities: activities})
+  }
+
+  const addIdea = (designlensId, idea) => {
+    ideasDispatch({type: "ADD", activeId: activeActivity.id, dlId: designlensId, idea: idea})
+  }
+
+  const initCanvas = (activeId) => {
+      canvasDispatch({type: "INIT", activeId: activeId})
+  }
+
+  const updateCanvasElems = (activeId, list, elemType="idea") => {
+      canvasDispatch({type: "UPDATE", elem: elemType, activeId: activeId, list: list})
+  }
+
+  const moveCanvasElems = (id, newPos, elemType="idea") => {
+      canvasDispatch({type: "MOVE", elem: elemType, activeId: activeActivity.id, id: id, newPos: newPos})
+  }
+
+  const addGroup = (groupTitle) => {
+      canvasDispatch({type: "ADDGROUP", activeId: activeActivity.id, groupTitle: groupTitle})
+  }
+
+  const flattenIdeas = (activeId, ideasUnflattened) => {
+    const flattened = [];
+
+    for (let dls in ideasUnflattened[activeId]) {
+        for (let idea of ideasUnflattened[activeId][dls]) {
+          flattened.push(idea);
+        }
+    }
+
+    return flattened;
   }
 
   const addActivity = (activitiy) => {
@@ -185,13 +247,17 @@ function App() {
             </Route>
             <Route path="research" element={<Research/>}>
                 <Route path="behaviourchain" element={
-                      <BehaviourChain activeActivity={activeActivity} behaviourChain={behaviourChains[activeActivity.id]}
+                      <BehaviourChain activeActivity={activeActivity} behaviourChain={behaviourChains[activeActivity.id]} 
+                                      addChainPart={addChainPart} handleSwap={handleBcSwap}
+                />} />
+                <Route path="users" element={
+                      <UserResearch activeActivity={activeActivity} behaviourChain={behaviourChains[activeActivity.id]}
                       addMotivator={addMotivator} addHurdle={addHurdle} addChainPart={addChainPart}
                 />} />
                 <Route path="profile" element={profile} />
                 <Route path="doesfit" element={
                       <GamificationFit behaviourChain={behaviourChains[activeActivity.id]}
-                            targetActivity={activeActivity.activity} handleBcFit={handleBcFit}/>} />
+                            targetActivity={activeActivity.activity} targetGroup={activeActivity.targetGroup} handleBcFit={handleBcFit}/>} />
             </Route>
             <Route path="synthesis" element={<Synthesis/>}>
               <Route path="skillatom" element={
@@ -207,9 +273,15 @@ function App() {
             <Route path="ideation" element={<Ideation/>}>
                 <Route path="focusquestions" element={
                         <FocusQuestions synthesis={synthesis[activeActivity.id]}
+                            ideas={ideas} addIdea={addIdea} activityId={activeActivity.id}
                         />} 
                 />
-                <Route path="clusterin" element={null} />
+                <Route path="clustering" element={
+                        <Clustering
+                            ideas={ideas[activeActivity.id]}
+                            moveElems={moveCanvasElems} activeCanvas={canvas[activeActivity.id]}
+                            addGroup={addGroup}
+                        />} />
             </Route>
             <Route path="test" element={<DesignLens/> }/>
             <Route

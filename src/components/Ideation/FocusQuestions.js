@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Typography, Box, Card, CardHeader, CardContent, Grid, Button } from '@mui/material';
 import DesignLens from './DesignLens';
 import AddText from '../Helper/AddText';
 
 export default function FocusQuestions(props) {
 
-    const [activeLens, setActiveLens] = useState("");
-    const [activeProblems, setActiveProblems] = useState([]);
-    const [ideas, setIdeas] = useState([]);
+    const [activeLensIter, setActiveLensIter] = useState(0);
 
-    useEffect(() => {
-        if (props.synthesis) {
-            let keys = Object.keys(props.synthesis.problems);
-            if (keys.length > 0) {
-                setActiveLens(props.synthesis.problems[keys[0]].designlens)
-                setActiveProblems(props.synthesis.problems[keys[0]].problems)
-            }
+    const keys = Object.keys(props.synthesis.problems);
+    const activeLens = (keys.length > 0) ? props.synthesis.problems[keys[activeLensIter]].designlens : null
+    const activeProblems = (keys.length > 0) ? props.synthesis.problems[keys[activeLensIter]].problems : []
+
+    const moveToNextLens = () => {
+        if (activeLensIter < keys.length-1) {
+            setActiveLensIter(activeLensIter + 1);
+        } else {
+            setActiveLensIter(0);
         }
-    }, [])
+    }
 
     const renderProblems = () => {
 
@@ -36,36 +36,62 @@ export default function FocusQuestions(props) {
         return problems;
     }
 
+    const renderIdeas = () => {
+
+        let ideas = [];
+
+        if (props.ideas[props.activityId] && props.ideas[props.activityId][activeLens.title]) {
+            for (let idea of props.ideas[props.activityId][activeLens.title]) {
+                ideas.push(
+                    <Box sx={{m: 2, bgcolor: "secondary.light", p: 2, borderWidth: "2px", borderStyle: "solid"}}>
+                        <Typography>{idea.name}</Typography>
+                    </Box>
+
+                )
+            }
+        }
+
+        return ideas;
+    }
+
     return(
-        activeLens &&
         <Box>
             <Typography variant="h2">Focus Questions</Typography>
-            <Grid container>
-                <Grid item xs={6}>
-                    <Box sx={{display: "flex", flexWrap: "wrap"}}>
-                        {renderProblems()}
+            {
+                activeLens ?
+                <Box>
+                    <Grid container>
+                        <Grid item xs={6}>
+                            <Box sx={{display: "flex", flexWrap: "wrap"}}>
+                                {renderProblems()}
+                            </Box>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <DesignLens 
+                                title={activeLens.title}
+                                motivator={activeLens.motivator}
+                                description={activeLens.description}
+                                questions={activeLens.questions}
+                            />
+                        </Grid>
+                    </Grid>
+                    <Box>
+                        <Button onClick={moveToNextLens}>Nächste Design Lens</Button>
                     </Box>
-                </Grid>
-                <Grid item xs={6}>
-                    <DesignLens 
-                        title={activeLens.title}
-                        motivator={activeLens.motivator}
-                        description={activeLens.description}
-                        questions={activeLens.questions}
-                    />
-                </Grid>
-            </Grid>
-            <Box>
-                <Button>Nächste Design Lens</Button>
-            </Box>
-            <Box sx={{mt: 3, mr: 3}}>
-                <Typography variant="h3">Brainstorming</Typography>
-                <Box sx={{display: "flex", alignItems:"center"}}>
-                    <Typography sx={{mr: 2}}>Idea 1:</Typography>
-                    <AddText placeholder="idea..." onAdd={() => {}}/>
+                    <Box sx={{mt: 3, mr: 3}}>
+                        <Typography variant="h3">Brainstorming</Typography>
+                        <Box sx={{display: "flex", flexWrap: "wrap"}}>
+                            {renderIdeas()}
+                        </Box>
+                        <Box sx={{display: "flex", alignItems:"center"}}>
+                            <Typography sx={{mr: 2}}>New Idea:</Typography>
+                            <AddText placeholder="idea..." onAdd={text => {props.addIdea(activeLens.title, text)}}/>
+                        </Box>
+                    </Box>
                 </Box>
-            </Box>
-
+                :
+                <Typography>Problems are needed to ideate on solutions.</Typography>
+            }
         </Box>
 
 

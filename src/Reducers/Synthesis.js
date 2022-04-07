@@ -34,7 +34,6 @@ const addProblem = (state, activeId, designlens) => {
 
 const updateProblem = (state, activeId, designlensId, pos, text) => {
     const stateCopy = JSON.parse(JSON.stringify(state));
-    console.log(designlensId);
     stateCopy[activeId].problems[designlensId].problems[pos] = text;
     return stateCopy;
 }

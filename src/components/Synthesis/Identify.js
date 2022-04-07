@@ -50,7 +50,7 @@ export default function Identify(props) {
 
         for (let lens of lensesData[types[activeType]]) {
             dls.push(
-                <DesignLens title={lens.title} motivator={lens.motivator} description={lens.description}
+                <DesignLens key={lens.title} title={lens.title} motivator={lens.motivator} description={lens.description}
                             questions={lens.questions} addProblem={() => props.addProblem(lens)}
                 />
             )
@@ -59,15 +59,12 @@ export default function Identify(props) {
     }
 
     const renderProblemFields = () => {
-        let problemFields = [];
-
-        for (let key in props.synthesis.problems) {
-            problemFields.push(
-                <ProblemsField key={key} dlTitle={key} updateProblem={props.updateProblem} problems={props.synthesis.problems[key]}/>
-            )
-        }
-
-        return problemFields;
+        return (
+                <ProblemsField skillAtomPartTitle={types[activeType]} 
+                                updateProblem={props.updateProblem} 
+                                problems={props.synthesis.problems}
+                />
+        )
     }
 
     if (props.synthesis && Object.keys(props.synthesis).length > 0) {
@@ -121,31 +118,40 @@ export default function Identify(props) {
 
 function ProblemsField(props) {
 
-    const handleUpdate = index => (e) => {
-        console.log(props.problems.designlens);
-        props.updateProblem(props.problems.designlens.title, index, e.target.value);
+    const handleUpdate = (dlsTitle, index) => (e) => {
+        props.updateProblem(props.problems[dlsTitle].designlens.title, index, e.target.value);
     }
 
     const renderProblems = () => {
         let problems = [];
 
-        for (let index in props.problems.problems) {
-            let problem = props.problems.problems[index];
-            problems.push(
-                <Box sx={{mb: 2, p: 1, display: "flex"}} key={index}>
-                    <TextField placeholder="Problem..." value={problem} onChange={handleUpdate(index)} multiline fullWidth/>
-                    <IconButton><Delete/></IconButton>
-                </Box>
-            )
+        for (let dls of lensesData[props.skillAtomPartTitle]) {
+            if (props.problems[dls.title]) {
+                problems.push(
+                    <Typography key={dls.title}>{dls.title}: </Typography>
+                )
+                for (let index in props.problems[dls.title].problems) {
+                    let problem = props.problems[dls.title].problems[index];
+                    problems.push(
+                        <Box sx={{mb: 2, p: 1, display: "flex"}} key={index + dls.title}>
+                            <TextField placeholder="Problem..." value={problem} onChange={handleUpdate(dls.title, index)} multiline fullWidth/>
+                            <IconButton><Delete/></IconButton>
+                        </Box>
+                    )
+                }
+            }
         }
 
         return problems;
     }
 
-    return(
-        <Box>
-            <Typography>{props.dlTitle}: </Typography>
-            {renderProblems()}
-        </Box>
-    )
+    if (props.problems) {
+        return(
+            <Box>
+                {renderProblems()}
+            </Box>
+        )
+    } else {
+        return null;
+    }
 }

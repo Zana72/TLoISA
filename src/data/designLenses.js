@@ -108,7 +108,158 @@ export const lensesData = {
             ]
         },
     ],
-    actions: [],
+    actions: [
+        {
+            title: "Bite sized actions",
+            motivator: "CO",
+            description: "Well-designed actions are split into an immediately doable size that gives the good feeling of having accomplished something.",
+            questions: [
+                "How might you split activities into immediately doable chunks?",
+                "How might you reduce actions into single clicks/swipes?"
+            ]
+        },
+        {
+            title: "Interesting choices",
+            motivator: "CO, AA",
+            description: "Well-designed actions provide only interesting choices.",
+            questions: [
+                "Does the action have a real impact on future events relevant to the user?",
+                "Are there trivial, mindless, routine decisions or steps you can hide or automate away?",
+                "Can you offer multiple different ways to the same result that differ meaningfully?"
+            ]
+        },
+        {
+            title: "Limited choice",
+            motivator: "CO",
+            description: "Well-designed actions do not overwhelm users with too much choice.",
+            questions: [
+                "How might we limit the number of actions offered?", 
+                "How might we highlight important actions?"
+            ]
+        },
+        {
+            title: "Micro-flow",
+            motivator: "CO, AA",
+            description: "Well-designed actions form an uninterrupted loop of immediate action and feedback.",
+            questions: [
+                "Is there a small repeated activity in your application or service?",
+                "How could you reduce it to a tight loop of one click/swipe and one immediate feedback comprising congratulation and next suggested action?"
+            ]
+        },
+        {
+            title: "Small pieces, loosely joined",
+            motivator: "AU",
+            description: "Resources inviting exploration and creativity are like Lego bricks: They can be easily assembled, reassembled, and disassembled.",
+            questions: [
+                "What is your 'Lego brick'?",
+                "How might you enable users to easily (re)assemble it?"
+            ]
+        },
+        {
+            title: "Expressive objects",
+            motivator: "ID",
+            description: "With good resources, users can express who they are, want to be, and belong to",
+            questions: [
+                "How might your users create something that is definitely them?",
+                "How might your users create something unique?",
+                "How might your users create something that shows who they belong to?"
+            ]
+        },
+        {
+            title: "Under-determination",
+            motivator: "AU",
+            description: "To invite exploration and creativity, good resources have no clearly prescribed space of possible uses and configurations.",
+            questions: [
+                "How might you leave blanks to fill out for your users?",
+                "How might you design resources so that you cannot fully predict what users will do with them?"
+            ]
+        },
+        {
+            title: "Sensual objects",
+            motivator: "CO",
+            description: "With good resources, exploring their (pseudo-)physical properties is a joy",
+            questions: [
+                "Digital: How might you make clicking, swiping, typing 'tactile'?",
+                "Physical: How might out object be a joy to touch, listen to, look at?"
+            ]
+        }
+    ],
     rules: [],
-    feedback: []
+    feedback: [
+        {
+            title: "Immediate",
+            motivator: "CO",
+            description: "To reduce friction and not break flow, good feedback occurs right where and when the action occurs.",
+            questions: [
+                "How might you provide feedback immediately after the action?",
+                "How might you provide feedback right where the action occurs?"
+            ]
+        },
+        {
+            title: "Juicy",
+            motivator: "CO",
+            description: "Excessive, varied sensual positive feedback can instil competence, curiosity and surprise.",
+            questions: [
+                "What are the small steps of the action?, When does a user achieve some goal with that action?",
+                "How might you exaggerate the auditory, visual, and tactile feedback at these moments - without getting in the way of a user's goal pursuit?",
+                "Is there a material or creature with enjoyable sensual properties that might inspire your feedback?"
+            ]
+        },
+        {
+            title: "Actionable",
+            motivator: "CO",
+            description: "To foster learning and competence, good feedback tells users how successful they were - and how to improve.",
+            questions: [
+                "How might you vary feedback based on the users degree of success?",
+                "How might you include tips for improvement in feedback?"
+            ]
+        },
+        {
+            title: "Appeal to motives",
+            motivator: "MO",
+            description: "Good feedback elicits the emotions and motivations that drive the activity.",
+            questions: [
+                "What motivations and emotions driver your users to engage in your target activity?",
+                "How can you appeal to them in image, sound, text?"
+            ]
+        },
+        {
+            title: "Glanceable",
+            motivator: "CO",
+            description: "To not break flow, good feedback does not get in the way of taking the next action.",
+            questions: [
+                "How can you give feedback without covering the main object of attention?",
+                "How can you give feedback without getting in the way of the user taking the next action?"
+            ]
+        },
+        {
+            title: "Varied",
+            motivator: "CU",
+            description: "To remain interesting, good feedback varies without being unlearnably or confusingly inconsistent.",
+            questions: [
+                "How can you create meaningful variation in feedback with minimum effort?",
+                "How might you make the variation juicy, actionable, and informative?"
+            ]
+        },
+        {
+            title: "Surprising",
+            motivator: "CU",
+            description: "To stoke curiosity, good feedback is surprising.",
+            questions: [
+                "Are there pleasant unexpected surprises you can integrate?",
+                "How might you vary feedback using a probability distribution?",
+                "How might you hide some easter eggs to drive exploration?",
+                "How might you pleasantly supersede expectations to induce amazement?"
+            ]
+        },
+        {
+            title: "Graspable progress",
+            motivator: "CO",
+            description: "Good feedback makes the current status and progress of the user graspable.",
+            questions: [
+                "How might you make sensual, tactile what the user has already achieved?",
+                "How might you use progress indicators to suggest next goals to the user?"
+            ]
+        }
+    ]
 }

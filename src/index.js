@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { blue } from '@mui/material/colors';
+import { blue, yellow } from '@mui/material/colors';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
@@ -11,6 +11,9 @@ const theme = createTheme({
     primary: {
       main: blue[500],
     },
+    secondary: {
+      main: yellow[500]
+    }
   },
   typography: {
     h1: {

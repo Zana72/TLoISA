@@ -1,6 +1,6 @@
-import { Card, CardHeader, CardContent, Typography, List, ListItem, ListItemText, IconButton } from '@mui/material';
+import { Card, CardHeader, CardContent, Typography, List, ListItem, ListItemText } from '@mui/material';
 import React from 'react';
-import { Add, Hiking } from '@mui/icons-material';
+import { Hiking } from '@mui/icons-material';
 
 export default function DesignLens(props) {
 
@@ -28,14 +28,5 @@ export default function DesignLens(props) {
                 </List>
             </CardContent>
         </Card>
-    )
-}
-
-function AddProblem(props) {
-
-    return(
-        <IconButton onClick={props.addProblem}>
-            <Add/>
-        </IconButton>
     )
 }

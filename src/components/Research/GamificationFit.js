@@ -1,5 +1,5 @@
 import { ArrowForwardSharp } from '@mui/icons-material';
-import { Typography, Box, List, ListItem, ListItemText, ListItemIcon, Checkbox, Grid, IconButton } from '@mui/material';
+import { Typography, Box, List, ListItem, ListItemText, ListItemIcon, Checkbox, Grid, IconButton, Divider } from '@mui/material';
 import { green, grey, yellow } from '@mui/material/colors';
 import React, {useState} from 'react';
 
@@ -11,7 +11,7 @@ export default function GamificationFit(props) {
         for (let bp in props.behaviourChain) {
             if (props.behaviourChain[bp].priority === activePrio) {
                 let activeBehaviourPart = props.behaviourChain[bp];
-                props.handleBcFit(activeBehaviourPart.id, value, !activeBehaviourPart.fitAnswers[value]);
+                props.handleBcFit(activePrio, value, !activeBehaviourPart.fitAnswers[value]);
                 return;
             }
         }
@@ -114,7 +114,7 @@ export default function GamificationFit(props) {
                 Before development of an ingenious Gameful Design, it should be determined if this actually helps to achieve your goals.
                 All four of the following questions should be answered positively.
             </Typography>
-            <Typography variant="h3">{props.targetActivity}</Typography>
+            <Typography variant="h3">{props.targetActivity} / {props.targetGroup}</Typography>
             <Box sx={{display: "flex", m: 1, flexWrap: "wrap"}}>
                 {renderActivities()}
             </Box>
@@ -160,7 +160,7 @@ function BcPart(props) {
 
         for (let motivation of props.motivations) {
             motivations.push(
-                <Typography key={motivation}>{motivation}</Typography>
+                <Typography key={motivation}>- {motivation}</Typography>
             )
         }
 
@@ -172,7 +172,7 @@ function BcPart(props) {
 
         for (let hurdle of props.hurdles) {
             hurdles.push(
-                <Typography key={hurdle}>{hurdle}</Typography>
+                <Typography key={hurdle}>- {hurdle}</Typography>
             )
         }
 
@@ -182,30 +182,33 @@ function BcPart(props) {
     return(
         <Box sx={{
             display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column",
-                     "borderStyle": "dashed", borderColor: "black", width: "15rem", p: 2, m: 2,
+                     "borderStyle": "dashed", borderColor: "black", width: "30rem", p: 2, m: 2,
                      "borderWidth": "2px", borderRadius: 2
         }}>
             <Grid container>
                 <Grid item xs={6}>
                     <Typography>Activity:</Typography>
+                    <Divider />
                 </Grid>
                 <Grid item xs={6}>
                     <Typography>{props.name}</Typography>
+                    <Divider />
                 </Grid>
                 <Grid item xs={6}>
                     <Typography>Motivators:</Typography>
                 </Grid>
                 <Grid item xs={6}>
                     {
-                        renderHurdles()
+                        renderMotivations()
                     }
+                    <Divider />
                 </Grid>
                 <Grid item xs={6}>
                     <Typography>Hurdles:</Typography>
                 </Grid>
                 <Grid item xs={6}>
                     {
-                        renderMotivations()
+                        renderHurdles()
                     }
                 </Grid>
             </Grid>

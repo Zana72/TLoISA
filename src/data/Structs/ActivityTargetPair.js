@@ -1,5 +1,5 @@
 
-export function activityTargetPair(id, priority, targetGroup, activity) {
+export default function activityTargetPair(id, priority, targetGroup, activity) {
     return {
         id: id,
         priority: priority,

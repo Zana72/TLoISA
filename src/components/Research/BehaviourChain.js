@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import { TextField, Typography, Box, Button } from '@mui/material';
-import { Add } from '@mui/icons-material';
-import AddText from '../Helper/AddText';
+import { TextField, Typography, Box, Button, IconButton } from '@mui/material';
+import { Add, ArrowBackIosNew, ArrowForwardIos, DoubleArrow } from '@mui/icons-material';
 
 export default function BehaviourChain(props) {
 
     const activity = props.activeActivity.activity;
+    const targetGroup = props.activeActivity.targetGroup;
 
     const renderBahaviourChain = () => {
 
@@ -13,11 +13,27 @@ export default function BehaviourChain(props) {
 
         for (let index in props.behaviourChain) {
             let behaviourChain = props.behaviourChain[index];
-            BCparts[behaviourChain.priority] = <ChainPart key={index}
-                name={behaviourChain.name} motivations={behaviourChain.motivations}
-                hurdles={behaviourChain.hurdles} addMotivator={props.addMotivator}
-                addHurdle={props.addHurdle} id={behaviourChain.id}
-            />
+            let priority = behaviourChain.priority;
+            if (priority !== 0) {
+                BCparts[behaviourChain.priority] = 
+                <Box key={priority} sx={{display: "flex", alignItems: "center"}}>
+                    <DoubleArrow/>
+                    <ChainPart key={index} handleSwap={direction => props.handleSwap(priority, direction)}
+                        name={behaviourChain.name} motivations={behaviourChain.motivations}
+                        hurdles={behaviourChain.hurdles} addMotivator={props.addMotivator}
+                        addHurdle={props.addHurdle} id={behaviourChain.id}
+                    />
+                </Box>
+            } else {
+                BCparts[priority] = 
+                <Box key={priority} sx={{display: "flex", alignItems: "center"}}>
+                    <ChainPart key={index} handleSwap={direction => props.handleSwap(priority, direction)}
+                        name={behaviourChain.name} motivations={behaviourChain.motivations}
+                        hurdles={behaviourChain.hurdles} addMotivator={props.addMotivator}
+                        addHurdle={props.addHurdle} id={behaviourChain.id}
+                    />
+                </Box>
+            }
         }
 
         return BCparts;
@@ -28,8 +44,8 @@ export default function BehaviourChain(props) {
             <Typography variant="h2">Behaviour Chain</Typography>
             <Typography>Teile deine Ziel-Aktivität in unter-Aufgaben auf, um das Design zu vereinfachen.</Typography>
             <Box sx={{display: "flex", m: 2, alignItems: "center"}}>
-                <Typography>Active Activity: </Typography>
-                <Typography sx={{ml: 2, fontWeight: 500}}>{activity}</Typography>
+                <Typography>Target Activity: </Typography>
+                <Typography sx={{ml: 1, fontWeight: 500}}>{activity} / {targetGroup}</Typography>
             </Box>
             <Box sx={{display: "flex", flexWrap: "wrap"}}>
                 {renderBahaviourChain()}
@@ -69,63 +85,32 @@ function ChainPartAdder(props) {
 
 function ChainPart(props) {
 
-    const addHurdle = (name) => {
-        props.addHurdle(name, props.id);
-    }
-
-    const addMotivator = (name) => {
-        props.addMotivator(name, props.id);
-    }
-
-    const renderMotivators = () => {
-        let motivators = [];
-
-        if (!props.motivations) return;
-
-        for (let motivator of props.motivations) {
-            motivators.push(
-                <Typography key={motivator}>{motivator}</Typography>
-            )
-        }
-
-        return motivators;
-    }
-
-    const renderHurdles = () => {
-        let hurdles = [];
-
-        if (!props.hurdles) return;
-
-        for (let hurdle of props.hurdles) {
-            hurdles.push(
-                <Typography key={hurdle}>{hurdle}</Typography>
-            )
-        }
-
-        return hurdles;
-    }
-
-    return (
+    return (  
         <Box sx={{
-            display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column",
-                     "borderStyle": "dashed", borderColor: "black", width: "15rem", p: 2, m: 2,
-                     "borderWidth": "2px", borderRadius: 2
-        }}>
-            <Typography>{props.name}</Typography>
+            display: "flex", justifyContent: "space-evenly", alignItems: "center", flexDirection: "row",
+                    "borderStyle": "dashed", borderColor: "black", width: "15rem", p: 2, m: 2,
+                    "borderWidth": "2px", borderRadius: 2
+        }}>             
+            {
+                !props.isFirst &&
+                <IconButton
+                    onClick={() => {props.handleSwap("left")}}
+                >
+                    <ArrowBackIosNew/>
+                </IconButton>
+            }   
             <Box>
-                <Typography>Motivators:</Typography>
-                {
-                    renderMotivators()
-                }
-                <AddText placeholder="New Motivation" onAdd={addMotivator}/>
+                <Typography sx={{fontWeight: 500}}>{props.name}</Typography>
             </Box>
-            <Box>
-                <Typography>Hurdles:</Typography>
-                {
-                    renderHurdles()
-                }
-                <AddText placeholder="New Hurdle" onAdd={addHurdle}/>
-            </Box>
+            {
+                !props.isLast &&
+                <IconButton
+                    onClick={() => {props.handleSwap("right")}}
+                >
+                    <ArrowForwardIos/>
+                </IconButton>
+            }
+
         </Box>
     )
 

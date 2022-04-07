@@ -1,10 +1,7 @@
-import { TextField, Box, Typography, Button } from '@mui/material';
+import { TextField, Box, Typography } from '@mui/material';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
 export default function GoalsAndMetrics(props) {
-
-    const navigate = useNavigate();
 
     return(
         <Box>
