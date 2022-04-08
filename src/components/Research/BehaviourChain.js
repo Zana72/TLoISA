@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { TextField, Typography, Box, Button, IconButton } from '@mui/material';
+import { TextField, Typography, Box, Button, IconButton, CardContent, Card } from '@mui/material';
 import { Add, ArrowBackIosNew, ArrowForwardIos, DoubleArrow } from '@mui/icons-material';
 
 export default function BehaviourChain(props) {
@@ -18,19 +18,15 @@ export default function BehaviourChain(props) {
                 BCparts[behaviourChain.priority] = 
                 <Box key={priority} sx={{display: "flex", alignItems: "center"}}>
                     <DoubleArrow/>
-                    <ChainPart key={index} handleSwap={direction => props.handleSwap(priority, direction)}
-                        name={behaviourChain.name} motivations={behaviourChain.motivations}
-                        hurdles={behaviourChain.hurdles} addMotivator={props.addMotivator}
-                        addHurdle={props.addHurdle} id={behaviourChain.id}
+                    <ChainPart key={behaviourChain.id} handleSwap={direction => props.handleSwap(priority, direction)}
+                        name={behaviourChain.name} id={behaviourChain.id}
                     />
                 </Box>
             } else {
                 BCparts[priority] = 
                 <Box key={priority} sx={{display: "flex", alignItems: "center"}}>
-                    <ChainPart key={index} handleSwap={direction => props.handleSwap(priority, direction)}
-                        name={behaviourChain.name} motivations={behaviourChain.motivations}
-                        hurdles={behaviourChain.hurdles} addMotivator={props.addMotivator}
-                        addHurdle={props.addHurdle} id={behaviourChain.id}
+                    <ChainPart key={behaviourChain.id} handleSwap={direction => props.handleSwap(priority, direction)}
+                        name={behaviourChain.name} id={behaviourChain.id}
                     />
                 </Box>
             }
@@ -86,32 +82,32 @@ function ChainPartAdder(props) {
 function ChainPart(props) {
 
     return (  
-        <Box sx={{
-            display: "flex", justifyContent: "space-evenly", alignItems: "center", flexDirection: "row",
-                    "borderStyle": "dashed", borderColor: "black", width: "15rem", p: 2, m: 2,
-                    "borderWidth": "2px", borderRadius: 2
-        }}>             
-            {
-                !props.isFirst &&
-                <IconButton
-                    onClick={() => {props.handleSwap("left")}}
-                >
-                    <ArrowBackIosNew/>
-                </IconButton>
-            }   
-            <Box>
-                <Typography sx={{fontWeight: 500}}>{props.name}</Typography>
-            </Box>
-            {
-                !props.isLast &&
-                <IconButton
-                    onClick={() => {props.handleSwap("right")}}
-                >
-                    <ArrowForwardIos/>
-                </IconButton>
-            }
+        <Card sx={{
+                    width: "15rem", p: 2, m: 2
+        }} elevation={4}>
+            <CardContent sx={{display: "flex", justifyContent: "space-evenly", alignItems: "center", flexDirection: "row"}}>
 
-        </Box>
+                {
+                    !props.isFirst &&
+                    <IconButton
+                        onClick={() => {props.handleSwap("left")}}
+                    >
+                        <ArrowBackIosNew/>
+                    </IconButton>
+                }   
+                <Box>
+                    <Typography sx={{fontWeight: 500}}>{props.name}</Typography>
+                </Box>
+                {
+                    !props.isLast &&
+                    <IconButton
+                        onClick={() => {props.handleSwap("right")}}
+                    >
+                        <ArrowForwardIos/>
+                    </IconButton>
+                }
+            </CardContent>  
+        </Card>
     )
 
 }

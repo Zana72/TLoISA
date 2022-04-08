@@ -19,7 +19,7 @@ export default function Profile(props) {
                         (ctr !== 0) &&
                         <DoubleArrowIcon key={key + "_arrow"} sx={{mr: 1, mb: 1}}/>
                     }
-                    <Box sx={{display: "flex", bgcolor: blue[300], p: 0.8, mr: 1, mb: 1, alignItems: "center"}}>
+                    <Paper sx={{display: "flex", bgcolor: blue[200], p: 0.8, mr: 1, mb: 1, alignItems: "center"}}>
                         <Typography>{name}</Typography>
                         {
                             !props.behaviourChain[key].fitAnswers.includes(false) &&
@@ -29,7 +29,7 @@ export default function Profile(props) {
                                 </Tooltip>
                             </Box>
                         }
-                    </Box>
+                    </Paper>
                 </Box>
             );
             ctr ++;
@@ -47,7 +47,11 @@ export default function Profile(props) {
             let bcMotivators = props.behaviourChain[key].motivations;
             for (let motivator of bcMotivators) {
                 if (!uniqueList.includes(motivator)) {
-                    motivators.push(<Typography key={motivator} sx={{bgcolor: green[300], p: 0.8, mr: 1, mb: 1}}>{motivator}</Typography>);
+                    motivators.push(
+                        <Paper sx={{bgcolor: green[200], p: 0.8, mr: 1, mb: 1}}>
+                            <Typography key={motivator}>{motivator}</Typography>
+                        </Paper>
+                    );
                     uniqueList.push(motivator);
                 }
             }
@@ -65,7 +69,11 @@ export default function Profile(props) {
             let bcHurdles = props.behaviourChain[key].hurdles;
             for (let hurdle of bcHurdles) {
                 if (!uniqueList.includes(hurdle)) {
-                    hurdles.push(<Typography key={hurdle} sx={{bgcolor: red[300], p: 0.8, mr: 1, mb: 1}}>{hurdle}</Typography>);
+                    hurdles.push(
+                        <Paper sx={{bgcolor: red[200], p: 0.8, mr: 1, mb: 1}}>
+                            <Typography key={hurdle}>{hurdle}</Typography>
+                        </Paper>
+                    );
                     uniqueList.push(hurdle);
                 }
             }

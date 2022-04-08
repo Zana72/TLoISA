@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import Draggable from 'react-draggable';
 import AddText from '../Helper/AddText';
+import FinalIdeas from './FinalIdeas';
 
 const draggableStyle = {
     "&:hover": {
@@ -81,6 +82,7 @@ export default function Clustering(props) {
 
     return(
         <Box sx={{position: "relative"}}>
+            <FinalIdeas  top="1rem" right="2rem"/>
             <Typography variant="h2">Clustering</Typography>
             <Box sx={{position: "absolute", top: 0, right: "4rem"}}>
                 <AddText placeholder="New Title" onAdd={props.addGroup} />

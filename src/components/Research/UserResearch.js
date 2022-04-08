@@ -1,6 +1,7 @@
 import React from 'react';
-import { Typography, Box } from '@mui/material';
+import { Typography, Box, Card, CardHeader, CardContent, Divider, Paper } from '@mui/material';
 import AddText from '../Helper/AddText';
+import { green, red } from '@mui/material/colors';
 
 export default function UserResearch(props) {
 
@@ -56,7 +57,7 @@ function ChainPart(props) {
 
         for (let motivator of props.motivations) {
             motivators.push(
-                <Typography key={motivator}>{motivator}</Typography>
+                <Typography key={motivator}>- {motivator}</Typography>
             )
         }
 
@@ -70,7 +71,7 @@ function ChainPart(props) {
 
         for (let hurdle of props.hurdles) {
             hurdles.push(
-                <Typography key={hurdle}>{hurdle}</Typography>
+                <Typography key={hurdle}>- {hurdle}</Typography>
             )
         }
 
@@ -78,29 +79,33 @@ function ChainPart(props) {
     }
 
     return (
-        <Box sx={{
-            display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column",
-                     "borderStyle": "dashed", borderColor: "black", width: "15rem", p: 2, m: 2,
-                     "borderWidth": "2px", borderRadius: 2
-        }}>
-            <Box sx={{mb: 1}}>
-                <Typography sx={{fontWeight: 500}}>{props.name}</Typography>
-            </Box>
-            <Box>
-                <Typography>Motivators:</Typography>
-                {
-                    renderMotivators()
-                }
-                <AddText placeholder="New Motivation" onAdd={addMotivator}/>
-            </Box>
-            <Box>
-                <Typography>Hurdles:</Typography>
-                {
-                    renderHurdles()
-                }
-                <AddText placeholder="New Hurdle" onAdd={addHurdle}/>
-            </Box>
-        </Box>
+        <Card sx={{
+            display: "flex", alignItems: "center", flexDirection: "column", height: "28rem",
+                    width: "16rem", p: 1, m: 2
+        }} elevation={6}>
+            <CardHeader sx={{mb: 1, m: 0}} title={props.name} titleTypographyProps={{variant:"h3"}}/>
+            <Divider/>
+            <CardContent sx={{overflowY: "auto", p: 0, scrollbarWidth: "thin"}}>
+                <Paper sx={{bgcolor: green[100], p: 2, mb: 1}}>
+                    <Box sx={{m: 1, ml: 0}}>
+                        <Typography>Motivators:</Typography>
+                    </Box>
+                    {
+                        renderMotivators()
+                    }
+                    <AddText placeholder="New Motivation" onAdd={addMotivator}/>
+                </Paper>
+                <Paper sx={{bgcolor: red[100], p: 2}}>
+                    <Box sx={{m: 1, ml: 0}}>
+                        <Typography>Hurdles:</Typography>
+                    </Box>
+                    {
+                        renderHurdles()
+                    }
+                    <AddText placeholder="New Hurdle" onAdd={addHurdle}/>
+                </Paper>
+            </CardContent>
+        </Card>
     )
 
 }

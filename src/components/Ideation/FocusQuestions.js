@@ -61,33 +61,35 @@ export default function FocusQuestions(props) {
                 activeLens ?
                 <Box>
                     <Grid container>
-                        <Grid item xs={6}>
-                            <Box sx={{display: "flex", flexWrap: "wrap"}}>
-                                {renderProblems()}
+                        <Grid item xs={5}>
+                            <Box sx={{mr: 3, mb: 3}}>
+                                <Typography variant="h3">Brainstorming</Typography>
+                                <Box sx={{display: "flex", flexWrap: "wrap"}}>
+                                    {renderIdeas()}
+                                </Box>
+                                <Box sx={{display: "flex", alignItems:"center"}}>
+                                    <Typography sx={{mr: 2}}>New Idea:</Typography>
+                                    <AddText placeholder="idea..." onAdd={text => {props.addIdea(activeLens.title, text)}}/>
+                                </Box>
                             </Box>
                         </Grid>
-                        <Grid item xs={6}>
-                            <DesignLens 
-                                title={activeLens.title}
-                                motivator={activeLens.motivator}
-                                description={activeLens.description}
-                                questions={activeLens.questions}
-                            />
+                        <Grid item xs={7}>
+                            <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "left"}}>
+                                <Box>
+                                    <Button onClick={moveToNextLens}>Nächste Design Lens</Button>
+                                </Box>
+                                <DesignLens 
+                                    title={activeLens.title}
+                                    motivator={activeLens.motivator}
+                                    description={activeLens.description}
+                                    questions={activeLens.questions}
+                                />
+                                <Box sx={{display: "flex", flexWrap: "wrap"}}>
+                                    {renderProblems()}
+                                </Box>
+                            </Box>
                         </Grid>
                     </Grid>
-                    <Box>
-                        <Button onClick={moveToNextLens}>Nächste Design Lens</Button>
-                    </Box>
-                    <Box sx={{mt: 3, mr: 3}}>
-                        <Typography variant="h3">Brainstorming</Typography>
-                        <Box sx={{display: "flex", flexWrap: "wrap"}}>
-                            {renderIdeas()}
-                        </Box>
-                        <Box sx={{display: "flex", alignItems:"center"}}>
-                            <Typography sx={{mr: 2}}>New Idea:</Typography>
-                            <AddText placeholder="idea..." onAdd={text => {props.addIdea(activeLens.title, text)}}/>
-                        </Box>
-                    </Box>
                 </Box>
                 :
                 <Typography>Problems are needed to ideate on solutions.</Typography>
