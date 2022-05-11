@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Paper } from '@mui/material';
 import Draggable from 'react-draggable';
 import AddText from '../Helper/AddText';
 import FinalIdeas from './FinalIdeas';
+import CanvasIdea from './CanvasIdea';
 
 const draggableStyle = {
     "&:hover": {
@@ -35,19 +36,13 @@ export default function Clustering(props) {
 
         for (let dls in props.ideas) {
             for (let idea of props.ideas[dls]) {
+                let dotted = props.activeCanvas.ideas[idea.id].dots ? true : false;
+                let pos = props.activeCanvas.ideas[idea.id].pos ? props.activeCanvas.ideas[idea.id].pos : {x: 0, y: 0}
                 ideas.push(
-                    <Draggable bounds="parent" grid={[20, 20]} position={props.activeCanvas.ideas[idea.id]}
-                                onStop={() => finishMove(idea.id, "idea")} onDrag={handleDrag}
-                                onStart={startMove}
-                    >
-                        <Box sx={{
-                            height: "fit-content", minWidth: "10rem", 
-                            m: 2, bgcolor: "secondary.light", p: 2, ...draggableStyle,
-                            borderStyle: "solid", borderRadius: "10px", borderWidth: "2px"
-                        }}>
-                            <Typography align="center">{idea.name}</Typography>
-                        </Box>
-                    </Draggable>
+                    <CanvasIdea dotted={dotted} name={idea.name} pos={pos} id={idea.id} key={idea.id} handleDrag={handleDrag}
+                        startMove={startMove} finishMove={finishMove} addDot={() => props.addDot(idea.id)}
+                        removeDot={() => props.removeDot(idea.id)}
+                    />
                 )
             }
         }
@@ -60,19 +55,17 @@ export default function Clustering(props) {
 
         for (let group in props.activeCanvas.groups) {
             const thisGroup = props.activeCanvas.groups[group];
-            console.log(thisGroup.id);
             textCss.push(
-                <Draggable bounds="parent" grid={[20, 20]} position={thisGroup.pos}
+                <Draggable bounds="parent" grid={[20, 20]} position={thisGroup.pos}  key={thisGroup.id}
                             onStop={() => finishMove(thisGroup.id, "group")} onDrag={handleDrag}
                             onStart={startMove}
                 >
-                    <Box sx={{
+                    <Paper sx={{
                         height: "fit-content", m: 2, p: 1, ...draggableStyle,
-                        borderStyle: "solid", minWidth: "10rem",
-                        bgcolor: "white"
-                    }}>
+                        minWidth: "10rem", bgcolor: "white"
+                    }} elevation={4}>
                         <Typography align="center">{thisGroup.name}</Typography>
-                    </Box>
+                    </Paper>
                 </Draggable>
             )
         }
@@ -87,7 +80,10 @@ export default function Clustering(props) {
             <Box sx={{position: "absolute", top: 0, right: "4rem"}}>
                 <AddText placeholder="New Title" onAdd={props.addGroup} />
             </Box>
-            <Box sx={{display: "flex", position: "relative", width: "100rem", height: "100rem"}}>
+            <Box sx={{display: "flex", position: "relative", width: "100rem", height: "100rem",
+                background: "linear-gradient(90deg, #eee 1%, transparent 1%) 1px 0, linear-gradient(0deg, #eee 1%, transparent 1%) 1px 0, #fff",
+                backgroundSize: "60px 60px"
+            }}>
                 {renderIdeas()}
                 {renderTexts()}
             </Box>

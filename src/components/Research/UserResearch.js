@@ -28,7 +28,7 @@ export default function UserResearch(props) {
     return(
         <Box>
             <Typography variant="h2">Behaviour Chain</Typography>
-            <Typography>Teile deine Ziel-Aktivität in unter-Aufgaben auf, um das Design zu vereinfachen.</Typography>
+            <Typography>Add motivators and hurdles to each sub-activity based on your user-data</Typography>
             <Box sx={{display: "flex", m: 2, alignItems: "center"}}>
                 <Typography>Target Activity: </Typography>
                 <Typography sx={{ml: 1, fontWeight: 500}}>{activity} / {targetGroup}</Typography>

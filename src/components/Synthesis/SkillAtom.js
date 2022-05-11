@@ -20,8 +20,6 @@ export default function SkillAtom(props) {
         const addPoint = (attribute) => (newPoint) => {
             props.addItem(attribute, newPoint);
         }
-        console.log(activePart);
-        console.log(skillAtomStatic.motivations.title);
     
         return(
             <Box>

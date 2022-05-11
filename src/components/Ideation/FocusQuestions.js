@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Box, Card, CardHeader, CardContent, Grid, Button } from '@mui/material';
+import { Typography, Box, Card, CardHeader, CardContent, Grid, Button, Paper } from '@mui/material';
 import DesignLens from './DesignLens';
 import AddText from '../Helper/AddText';
 
@@ -43,9 +43,9 @@ export default function FocusQuestions(props) {
         if (props.ideas[props.activityId] && props.ideas[props.activityId][activeLens.title]) {
             for (let idea of props.ideas[props.activityId][activeLens.title]) {
                 ideas.push(
-                    <Box sx={{m: 2, bgcolor: "secondary.light", p: 2, borderWidth: "2px", borderStyle: "solid"}}>
+                    <Paper sx={{m: 2, bgcolor: "secondary.light", p: 2, maxWidth:"12rem", height: "fit-content"}} elevation={4}>
                         <Typography>{idea.name}</Typography>
-                    </Box>
+                    </Paper>
 
                 )
             }
@@ -76,7 +76,7 @@ export default function FocusQuestions(props) {
                         <Grid item xs={7}>
                             <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "left"}}>
                                 <Box>
-                                    <Button onClick={moveToNextLens}>Nächste Design Lens</Button>
+                                    <Button onClick={moveToNextLens}>Next design lens</Button>
                                 </Box>
                                 <DesignLens 
                                     title={activeLens.title}

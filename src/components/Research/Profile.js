@@ -48,8 +48,8 @@ export default function Profile(props) {
             for (let motivator of bcMotivators) {
                 if (!uniqueList.includes(motivator)) {
                     motivators.push(
-                        <Paper sx={{bgcolor: green[200], p: 0.8, mr: 1, mb: 1}}>
-                            <Typography key={motivator}>{motivator}</Typography>
+                        <Paper sx={{bgcolor: green[200], p: 0.8, mr: 1, mb: 1}} key={motivator}>
+                            <Typography>{motivator}</Typography>
                         </Paper>
                     );
                     uniqueList.push(motivator);
@@ -70,8 +70,8 @@ export default function Profile(props) {
             for (let hurdle of bcHurdles) {
                 if (!uniqueList.includes(hurdle)) {
                     hurdles.push(
-                        <Paper sx={{bgcolor: red[200], p: 0.8, mr: 1, mb: 1}}>
-                            <Typography key={hurdle}>{hurdle}</Typography>
+                        <Paper sx={{bgcolor: red[200], p: 0.8, mr: 1, mb: 1}} key={hurdle}>
+                            <Typography>{hurdle}</Typography>
                         </Paper>
                     );
                     uniqueList.push(hurdle);

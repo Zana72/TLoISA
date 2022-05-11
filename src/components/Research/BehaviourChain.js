@@ -38,7 +38,7 @@ export default function BehaviourChain(props) {
     return(
         <Box>
             <Typography variant="h2">Behaviour Chain</Typography>
-            <Typography>Teile deine Ziel-Aktivität in unter-Aufgaben auf, um das Design zu vereinfachen.</Typography>
+            <Typography>Split the target activity into sub-activities to simplify research and design considerations</Typography>
             <Box sx={{display: "flex", m: 2, alignItems: "center"}}>
                 <Typography>Target Activity: </Typography>
                 <Typography sx={{ml: 1, fontWeight: 500}}>{activity} / {targetGroup}</Typography>

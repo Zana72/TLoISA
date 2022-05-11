@@ -60,10 +60,10 @@ export default function GamificationFit(props) {
                 let activeBehaviourPart = props.behaviourChain[bp];
                 if (activeBehaviourPart && activeBehaviourPart.name !== undefined) {
                     return <BcPart name={activeBehaviourPart.name} motivations={activeBehaviourPart.motivations}
-                            hurdles={activeBehaviourPart.hurdles}
+                            hurdles={activeBehaviourPart.hurdles} key={activePrio}
                     />
                 } else {
-                    return <Typography>There is not active behaviour part</Typography>
+                    return <Typography key={activePrio}>There is not active behaviour part</Typography>
                 }
             }
         }
@@ -83,9 +83,9 @@ export default function GamificationFit(props) {
             if (checkIfFit(bcPart.fitAnswers) === 0) {
                 activities.push(
                     <Paper sx={{bgcolor: grey[200], p: 0.8, ml: 1,
-                        "&:hover": { cursor: "pointer"}}} elevation={elevation}
+                        "&:hover": { cursor: "pointer"}}} elevation={elevation} key={key}
                     >
-                        <Typography onClick={() => {setActivePrio(bcPart.priority)}} key={key} 
+                        <Typography onClick={() => {setActivePrio(bcPart.priority)}}
                         >{bcPart.name}</Typography>
 
                     </Paper>
@@ -93,9 +93,9 @@ export default function GamificationFit(props) {
             } else if (checkIfFit(bcPart.fitAnswers) === 1) {
                 activities.push(
                     <Paper sx={{bgcolor: yellow[200], p: 0.8, ml: 1,
-                            "&:hover": { cursor: "pointer"}}} elevation={elevation}
+                            "&:hover": { cursor: "pointer"}}} elevation={elevation} key={key} 
                     >
-                        <Typography onClick={() => {setActivePrio(bcPart.priority)}} key={key} 
+                        <Typography onClick={() => {setActivePrio(bcPart.priority)}}
                         >{bcPart.name}</Typography>
 
                     </Paper>
@@ -103,9 +103,9 @@ export default function GamificationFit(props) {
             } else {
                 activities.push(
                     <Paper sx={{bgcolor: green[200], p: 0.8, ml: 1,
-                        "&:hover": { cursor: "pointer"}}} elevation={elevation}
+                        "&:hover": { cursor: "pointer"}}} elevation={elevation} key={key} 
                     >
-                        <Typography onClick={() => {setActivePrio(bcPart.priority)}} key={key} 
+                        <Typography onClick={() => {setActivePrio(bcPart.priority)}}
                         >{bcPart.name}</Typography>
 
                     </Paper>
@@ -119,9 +119,16 @@ export default function GamificationFit(props) {
     return(
         <Box>
             <Typography variant="h2">Gamification Fit</Typography>
-            <Typography variant="h3">{props.targetActivity} / {props.targetGroup}</Typography>
+            <Typography sx={{mb: 2}}>
+                Before you develop an ingenious Gameful Design, you should determined if this actually helps to achieve your goals.
+                All four of the following questions should be answered positively in order to evaluate a sub-activity as suitable.
+            </Typography>
             <Grid container>
-                <Grid item xs={9} sx={{p: 4}}>
+                <Grid item xs={9} sx={{}}>
+                    <Box sx={{display: "flex", mb: 2, ml: 2}}>
+                        <Typography sx={{mr: 1}}>Target Activity:</Typography>
+                        <Typography sx={{fontWeight: 500}}>{props.targetActivity} / {props.targetGroup}</Typography>
+                    </Box>
                     <Box sx={{display: "flex", m: 1, flexWrap: "wrap"}}>
                         {renderActivities()}
                     </Box>
@@ -157,13 +164,10 @@ export default function GamificationFit(props) {
                         </ListItem>
                     </List>
                 </Grid>
-                <Grid item xs={3}>
+                {/* <Grid item xs={3}>
                     <Typography sx={{fontWeight: 500, mb: 1}}>Tipp: </Typography>
-                    <Typography sx={{mb: 2}}>
-                        Before you develop an ingenious Gameful Design, you should determined if this actually helps to achieve your goals.
-                        All four of the following questions should be answered positively in order to evaluate a sub-activity as suitable.
-                    </Typography>
-                </Grid>
+
+                </Grid> */}
             </Grid>
         </Box>
     )

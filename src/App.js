@@ -59,6 +59,10 @@ function App() {
   const [canvas, canvasDispatch] = useReducer(canvasReducer, localCanvas ? JSON.parse(localCanvas) : {});
 
   useEffect(() => {
+    console.log(localStorage);
+  })
+
+  useEffect(() => {
     localStorage.setItem("ideas", JSON.stringify(ideas));
   }, [ideas])
 
@@ -117,7 +121,6 @@ function App() {
   }
 
   const handleBcFit = (prio, fitAnswerItr, value) => {
-    console.log(prio, fitAnswerItr);
     bcsDispatch({type: "CHANGEFIT", activeId: activeActivity.id, prio: prio, fitAnswerItr: fitAnswerItr, value: value});
   }
   
@@ -176,6 +179,14 @@ function App() {
 
   const moveCanvasElems = (id, newPos, elemType="idea") => {
       canvasDispatch({type: "MOVE", elem: elemType, activeId: activeActivity.id, id: id, newPos: newPos})
+  }
+
+  const addDot = (id) => {
+      canvasDispatch({type: "ADDDOTT", activeId: activeActivity.id, id: id});
+  }
+
+  const removeDot = (id) => {
+      canvasDispatch({type: "REMOVEDOT", activeId: activeActivity.id, id: id});
   }
 
   const addGroup = (groupTitle) => {
@@ -280,7 +291,7 @@ function App() {
                         <Clustering
                             ideas={ideas[activeActivity.id]}
                             moveElems={moveCanvasElems} activeCanvas={canvas[activeActivity.id]}
-                            addGroup={addGroup}
+                            addGroup={addGroup} addDot={addDot} removeDot={removeDot}
                         />} />
             </Route>
             <Route path="test" element={<DesignLens/> }/>

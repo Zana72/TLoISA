@@ -1,5 +1,6 @@
 import ClusterGroup from "../data/Structs/ClusterGroup";
 import { v4 as uuidv4 } from 'uuid';
+import ClusterIdea from "../data/Structs/ClusterIdea";
 
 const initCanvas = (state, activeId) => {
     const canvasCopy = JSON.parse(JSON.stringify(state));
@@ -23,7 +24,7 @@ const updateIdeas = (state, activeId, ideas) => {
 
         for (let idea of ideas) {
             if (!canvasCopy[activeId].ideas[idea.id]) {
-                canvasCopy[activeId].ideas[idea.id] = {x: 0, y: 0}
+                canvasCopy[activeId].ideas[idea.id] = ClusterIdea();
             }
         }
     }
@@ -36,7 +37,31 @@ const moveIdea = (state, activeId, ideaId, newPos) => {
 
     if (canvasCopy[activeId]) {
         if (canvasCopy[activeId].ideas[ideaId]) {
-            canvasCopy[activeId].ideas[ideaId] = newPos
+            canvasCopy[activeId].ideas[ideaId].pos = newPos
+        }
+    }
+
+    return canvasCopy;
+}
+
+const addDot = (state, activeId, ideaId) => {
+    const canvasCopy = JSON.parse(JSON.stringify(state));
+
+    if (canvasCopy[activeId]) {
+        if (canvasCopy[activeId].ideas[ideaId]) {
+            canvasCopy[activeId].ideas[ideaId].dots = 1
+        }
+    }
+
+    return canvasCopy;
+}
+
+const removeDot = (state, activeId, ideaId) => {
+    const canvasCopy = JSON.parse(JSON.stringify(state));
+
+    if (canvasCopy[activeId]) {
+        if (canvasCopy[activeId].ideas[ideaId]) {
+            canvasCopy[activeId].ideas[ideaId].dots = 0
         }
     }
 
@@ -79,6 +104,10 @@ export default function canvasReducer(state, action) {
             } else if (action.elem === "idea") {
                 return moveIdea(state, action.activeId, action.id, action.newPos)
             } else return state;
+        case "ADDDOTT":
+            return addDot(state, action.activeId, action.id);
+        case "REMOVEDOT":
+            return removeDot(state, action.activeId, action.id);
         case "UPDATE":
             return updateIdeas(state, action.activeId, action.list)
         case "ADDGROUP":
