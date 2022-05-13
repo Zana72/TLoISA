@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Box, Card, CardHeader, CardContent, Typography, Divider, IconButton, Popover} from '@mui/material';
 import AddText from '../Helper/AddText';
-import { HelpOutline } from '@mui/icons-material';
+import { HelpOutline, Remove } from '@mui/icons-material';
 
 function ExplanationHelper(props) {
 
@@ -52,9 +52,18 @@ export default function SkillAtomPart(props) {
 
         let elements = [];
 
-        for (let point of props.points) {
+        for (let index in props.points) {
+            let point = props.points[index];
             elements.push(
-                <Typography key={point}>{point}</Typography>
+                <Box sx={{display: "flex", alignItems: "center", justifyContent: "space-between"}} key={index}>
+                    <Typography key={point}>{point}</Typography>
+                    <IconButton size="small" color="error"
+                        onClick={() => props.removePoint(index)}
+                    >
+                        <Remove/>
+                    </IconButton>
+                </Box>
+
             )
         }
 

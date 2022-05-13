@@ -9,7 +9,7 @@ export default function DesignLens(props) {
 
         for (let question of props.questions) {
             questions.push(
-                <ListItem>
+                <ListItem key={question}>
                     <ListItemText>{question}</ListItemText>
                 </ListItem>
             )

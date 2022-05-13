@@ -58,9 +58,9 @@ function App() {
   const [ideas, ideasDispatch] = useReducer(ideasReducer, localIdeas ? JSON.parse(localIdeas) : {});
   const [canvas, canvasDispatch] = useReducer(canvasReducer, localCanvas ? JSON.parse(localCanvas) : {});
 
-  useEffect(() => {
-    console.log(localStorage);
-  })
+  // useEffect(() => {
+  //   console.log(localStorage);
+  // }, []);
 
   useEffect(() => {
     localStorage.setItem("ideas", JSON.stringify(ideas));
@@ -112,12 +112,24 @@ function App() {
     bcsDispatch({type: "ADDPART", activeId: activeActivity.id, name: name});
   }
 
+  const removeChainPart = (index) => {
+    bcsDispatch({type: "REMOVEPART", activeId: activeActivity.id, index: index});
+  }
+
   const addMotivator = (motivator, prio) => {
     bcsDispatch({type: "ADDMOTIV", activeId: activeActivity.id, motivator: motivator, prio: prio});
   }
 
+  const removeMotivator = (motivIndex, prio) => {
+    bcsDispatch({type: "REMOVEMOTIV", activeId: activeActivity.id, index: motivIndex, prio: prio});
+  }
+
   const addHurdle = (hurdle, prio) => {
     bcsDispatch({type: "ADDHURDLE", activeId: activeActivity.id, hurdle: hurdle, prio: prio});
+  }
+
+  const removeHurdle = (hurdleIndex, prio) => {
+    bcsDispatch({type: "REMOVEHURDLE", activeId: activeActivity.id, index: hurdleIndex, prio: prio});
   }
 
   const handleBcFit = (prio, fitAnswerItr, value) => {
@@ -149,8 +161,16 @@ function App() {
     synthDispatch({type: "AddItem", activeId: activeActivity.id, attribute: attribute, element: element})
   }
 
+  const removeSynthItem = (attribute, index) => {
+    synthDispatch({type: "RemoveItem", activeId: activeActivity.id, attribute: attribute, index: index})
+  }
+
   const addSynthProblem = (designlens) => {
     synthDispatch({type: "AddProblem", activeId: activeActivity.id, designlens: designlens});
+  }
+
+  const removeSynthProblem = (designlens, pos) => {
+    synthDispatch({type: "RemoveProblem", activeId: activeActivity.id, designlens: designlens, pos: pos});
   }
 
   const updateSynthProblem = (designlensId, pos, text) => {
@@ -167,6 +187,10 @@ function App() {
 
   const addIdea = (designlensId, idea) => {
     ideasDispatch({type: "ADD", activeId: activeActivity.id, dlId: designlensId, idea: idea})
+  }
+
+  const removeIdea = (designlensId, pos) => {
+    ideasDispatch({type: "REMOVE", activeId: activeActivity.id, dlId: designlensId, pos: pos})
   }
 
   const initCanvas = (activeId) => {
@@ -193,6 +217,10 @@ function App() {
       canvasDispatch({type: "ADDGROUP", activeId: activeActivity.id, groupTitle: groupTitle})
   }
 
+  const removeGroup = (groupId) => {
+    canvasDispatch({type: "REMOVEGROUP", activeId: activeActivity.id, groupId: groupId})
+}
+
   const flattenIdeas = (activeId, ideasUnflattened) => {
     const flattened = [];
 
@@ -209,9 +237,23 @@ function App() {
     setActivities([...activities, activitiy]);
   }
 
+  const removeActivity = (index) => {
+      const newActivities = activities.filter((val, ind) => {
+        return (ind !== parseInt(index))
+      })
+      setActivities(newActivities);
+  }
+
   const addTargetGroup = (targetGroup) => {
     setTargetGroups([...targetGroups, targetGroup]);
   }
+
+  const removeTargetGroup = (index) => {
+    const newTargetGroups = targetGroups.filter((val, ind) => {
+      return (ind !== parseInt(index))
+    })
+    setTargetGroups(newTargetGroups);
+}
 
   const pickActivity = (activityPair) => {
     setActiveActivity(activityPair);
@@ -235,18 +277,12 @@ function App() {
                   metric={metric} setMetric={setMetric}
               />} />
               <Route path="activities" element={
-                <GroupAndActivities 
-                  activities={activities} setActivities={setActivities} 
-                  targetGroups={targetGroups} setTargetGroups={setTargetGroups}
-                  addActivity={addActivity} addTargetGroup={addTargetGroup}
-                  activityTargetPairs={activityTargetPairs}
-                  generateActivityPairs={handleInitAtp}
-                  swapActivityPair={handleSwapAtp} pickActivity={pickActivity}
-              />} >
+                <GroupAndActivities />} >
                 <Route path="collect" element={
                     <ActivitiesCollect activities={activities} targetGroups={targetGroups}
-                        addActivity={addActivity} addTargetGroup={addTargetGroup}
-                        generateActivityPairs={handleInitAtp}
+                        addActivity={addActivity} removeActivity={removeActivity} addTargetGroup={addTargetGroup}
+                        generateActivityPairs={handleInitAtp} removeTargetGroup={removeTargetGroup}
+                        activityTargetPairs={activityTargetPairs}
                 />}/>
                 <Route path="prioritize" element={
                     <ActivitiesPrioritize 
@@ -260,10 +296,12 @@ function App() {
                 <Route path="behaviourchain" element={
                       <BehaviourChain activeActivity={activeActivity} behaviourChain={behaviourChains[activeActivity.id]} 
                                       addChainPart={addChainPart} handleSwap={handleBcSwap}
+                                      removeChainPart={removeChainPart}
                 />} />
                 <Route path="users" element={
                       <UserResearch activeActivity={activeActivity} behaviourChain={behaviourChains[activeActivity.id]}
                       addMotivator={addMotivator} addHurdle={addHurdle} addChainPart={addChainPart}
+                      removeMotivator={removeMotivator} removeHurdle={removeHurdle}
                 />} />
                 <Route path="profile" element={profile} />
                 <Route path="doesfit" element={
@@ -273,18 +311,20 @@ function App() {
             <Route path="synthesis" element={<Synthesis/>}>
               <Route path="skillatom" element={
                       <SkillAtom synthesis={synthesis[activeActivity.id]} addItem={addSynthItem}
-                                  activityPair={activeActivity} profile={profile}
+                                  activityPair={activeActivity} profile={profile} removeItem={removeSynthItem}
                       />} />
               <Route path="identify" element={
                       <Identify synthesis={synthesis[activeActivity.id]}
                           targetActivity={activeActivity.activity} addProblem={addSynthProblem}
                           updateProblem={updateSynthProblem} profile={profile}
+                          removeProblem={removeSynthProblem}
                       />} />
             </Route>
             <Route path="ideation" element={<Ideation/>}>
                 <Route path="focusquestions" element={
                         <FocusQuestions synthesis={synthesis[activeActivity.id]}
                             ideas={ideas} addIdea={addIdea} activityId={activeActivity.id}
+                            removeIdea={removeIdea}
                         />} 
                 />
                 <Route path="clustering" element={
@@ -292,6 +332,7 @@ function App() {
                             ideas={ideas[activeActivity.id]}
                             moveElems={moveCanvasElems} activeCanvas={canvas[activeActivity.id]}
                             addGroup={addGroup} addDot={addDot} removeDot={removeDot}
+                            removeGroup={removeGroup}
                         />} />
             </Route>
             <Route path="test" element={<DesignLens/> }/>

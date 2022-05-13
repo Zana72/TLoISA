@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Typography, Paper, Box, Button } from '@mui/material';
-import { Add, Circle, Remove } from '@mui/icons-material';
+import { Delete } from '@mui/icons-material';
 import Draggable from 'react-draggable';
 
 const draggableStyle = {
@@ -9,22 +9,21 @@ const draggableStyle = {
     },
 }
 
-export default function CanvasIdea(props) {
-
-    const [showDotAdder, setShowDotAdder] = useState(false);
+export default function CanvasGroup(props) {
+    const [showDeleter, setShowDeleter] = useState(false);
 
     const handleShow = () => {
-        setShowDotAdder(true);
+        setShowDeleter(true);
     }
 
     const handleUnshow = () => {
-        setShowDotAdder(false);
+        setShowDeleter(false);
     }
 
     return(
         
         <Draggable bounds="parent" grid={[20, 20]} position={props.pos}
-                onStop={() => props.finishMove(props.id, "idea")} onDrag={props.handleDrag}
+                onStop={() => props.finishMove(props.id, "group")} onDrag={props.handleDrag}
                 onStart={props.startMove}
         >
             <Box sx={{
@@ -35,26 +34,17 @@ export default function CanvasIdea(props) {
                     onMouseLeave={handleUnshow}>
                 <Paper sx={{
                         height: "fit-content", minWidth: "10rem", 
-                        m: 2, mt: 0, mr: 0, bgcolor: "secondary.light", p: 2, ...draggableStyle,
+                        m: 2, mt: 0, mr: 0, p: 1, ...draggableStyle,
                         maxWidth: "12rem"
                     }} elevation={4}
                     aria-haspopup="true"
                 >
-                    {
-                        props.dotted &&
-                        <Circle color="error" sx={{}}/>
-                    }
                     <Typography align="center">{props.name}</Typography>
                 </Paper>
-                <Button sx={{opacity: showDotAdder ? "100%": "0%"}}
-                    onClick={props.dotted ? props.removeDot : props.addDot}
+                <Button sx={{opacity: showDeleter ? "100%": "0%"}}
+                    onClick={props.delete} color="error"
                 >
-                    {
-                        props.dotted
-                        ?<Remove/>
-                        :<Add/>
-                    }
-                    <Circle color="error"/>
+                    <Delete/>
                 </Button>
             </Box>
         </Draggable>

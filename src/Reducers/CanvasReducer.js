@@ -73,7 +73,19 @@ const addGroup = (state, activeId, groupTitle) => {
 
     if (canvasCopy[activeId]) {
         let newId = uuidv4();
-        canvasCopy[activeId].groups[newId] = ClusterGroup(groupTitle, newId);
+        let length = Object.keys(canvasCopy[activeId].groups).length;
+        console.log(-length*208);
+        canvasCopy[activeId].groups[newId] = ClusterGroup(groupTitle, newId, -length*208);
+    }
+
+    return canvasCopy;
+}
+
+const removeGroup = (state, activeId, groupId) => {
+    const canvasCopy = JSON.parse(JSON.stringify(state));
+
+    if (canvasCopy[activeId]) {
+        delete canvasCopy[activeId].groups[groupId];
     }
 
     return canvasCopy;
@@ -112,6 +124,8 @@ export default function canvasReducer(state, action) {
             return updateIdeas(state, action.activeId, action.list)
         case "ADDGROUP":
             return addGroup(state, action.activeId, action.groupTitle);
+        case "REMOVEGROUP":
+            return removeGroup(state, action.activeId, action.groupId);
         default:
             return state;
     }

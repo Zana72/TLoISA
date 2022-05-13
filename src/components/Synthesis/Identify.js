@@ -94,6 +94,7 @@ export default function Identify(props) {
                 <ProblemsField skillAtomPartTitle={types[activeType]} 
                                 updateProblem={props.updateProblem} 
                                 problems={props.synthesis.problems}
+                                removeProblem={props.removeProblem}
                 />
         )
     }
@@ -165,11 +166,15 @@ function ProblemsField(props) {
         props.updateProblem(props.problems[dlsTitle].designlens.title, index, e.target.value);
     }
 
+    const handleDelete = (dlsTitle, index) => {
+        props.removeProblem(props.problems[dlsTitle].designlens.title, index);
+    }
+
     const renderProblems = () => {
         let problems = [];
 
         for (let dls of lensesData[props.skillAtomPartTitle]) {
-            if (props.problems[dls.title]) {
+            if (props.problems[dls.title] && props.problems[dls.title].problems.length > 0) {
                 problems.push(
                     <Typography key={dls.title}>{dls.title}: </Typography>
                 )
@@ -177,8 +182,10 @@ function ProblemsField(props) {
                     let problem = props.problems[dls.title].problems[index];
                     problems.push(
                         <Box sx={{mb: 2, p: 1, display: "flex"}} key={index + dls.title}>
-                            <TextField placeholder="Problem..." value={problem} onChange={handleUpdate(dls.title, index)} multiline fullWidth/>
-                            <IconButton><Delete/></IconButton>
+                            <TextField variant="standard" placeholder="Problem..." value={problem} onChange={handleUpdate(dls.title, index)} multiline fullWidth/>
+                            <IconButton
+                                onClick={() => handleDelete(dls.title, index)}
+                            ><Delete/></IconButton>
                         </Box>
                     )
                 }

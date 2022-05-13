@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Typography, Box, Card, CardHeader, CardContent, Grid, Button, Paper } from '@mui/material';
+import { Typography, Box, Card, CardHeader, CardContent, Grid, Button, Paper, IconButton } from '@mui/material';
 import DesignLens from './DesignLens';
 import AddText from '../Helper/AddText';
+import { Delete } from '@mui/icons-material';
 
 export default function FocusQuestions(props) {
 
@@ -25,7 +26,7 @@ export default function FocusQuestions(props) {
 
         for (let index in activeProblems) {
             problems.push(
-                <Card sx={{width: "20rem", m: 3}}>
+                <Card sx={{width: "20rem", m: 3}} key={index}>
                     <CardHeader title={"Problem " + (parseInt(index) + 1)}/>
                     <CardContent>
                         <Typography>{activeProblems[index]}</Typography>
@@ -41,10 +42,19 @@ export default function FocusQuestions(props) {
         let ideas = [];
 
         if (props.ideas[props.activityId] && props.ideas[props.activityId][activeLens.title]) {
-            for (let idea of props.ideas[props.activityId][activeLens.title]) {
+            for (let index in props.ideas[props.activityId][activeLens.title]) {
+                let idea = props.ideas[props.activityId][activeLens.title][index]
                 ideas.push(
-                    <Paper sx={{m: 2, bgcolor: "secondary.light", p: 2, maxWidth:"12rem", height: "fit-content"}} elevation={4}>
+                    <Paper key={index} sx={{
+                        m: 2, bgcolor: "secondary.light", p: 2, maxWidth:"12rem", height: "fit-content",
+                        display: "flex", alignItems: "center", justifyContent: "space-between"
+                    }} elevation={4}>
                         <Typography>{idea.name}</Typography>
+                        <IconButton onClick={
+                            () => {props.removeIdea(activeLens.title, index)}
+                        }>
+                            <Delete/>
+                        </IconButton>
                     </Paper>
 
                 )

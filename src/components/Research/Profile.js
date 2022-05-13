@@ -19,16 +19,16 @@ export default function Profile(props) {
                         (ctr !== 0) &&
                         <DoubleArrowIcon key={key + "_arrow"} sx={{mr: 1, mb: 1}}/>
                     }
-                    <Paper sx={{display: "flex", bgcolor: blue[200], p: 0.8, mr: 1, mb: 1, alignItems: "center"}}>
-                        <Typography>{name}</Typography>
+                    <Paper sx={{display: "flex", bgcolor: blue[200], p: 0.8, mr: 1, mb: 1, alignItems: "center", justifyContent: "center"}}
+                        elevation={!props.behaviourChain[key].fitAnswers.includes(false) ? 4 : 0}
+                    >
                         {
                             !props.behaviourChain[key].fitAnswers.includes(false) &&
-                            <Box sx={{m: 1, mt: 0}}>
-                                <Tooltip title="Fits Gamification">
-                                    <SportsEsportsIcon />
-                                </Tooltip>
-                            </Box>
+                            <Tooltip title="Fits Gamification">
+                                <SportsEsportsIcon />
+                            </Tooltip>
                         }
+                        <Typography>{name}</Typography>
                     </Paper>
                 </Box>
             );

@@ -20,6 +20,10 @@ export default function SkillAtom(props) {
         const addPoint = (attribute) => (newPoint) => {
             props.addItem(attribute, newPoint);
         }
+
+        const removePoint = (attribute) => (index) => {
+            props.removeItem(attribute, index);
+        }
     
         return(
             <Box>
@@ -37,6 +41,7 @@ export default function SkillAtom(props) {
                         top="54%" left="0%" title={skillAtomStatic.motivations.title}
                         info={skillAtomStatic.motivations.info}
                         points={motivations} addPoint={addPoint("motivations")}
+                        removePoint={removePoint("motivations")}
                         addPLaceholder="Add Motivation"
                         icon={skillAtomStatic.motivations.icon}
                         onClick={() => setActivePart("Motivation")}
@@ -47,6 +52,7 @@ export default function SkillAtom(props) {
                         top="18%" left="0%" title={skillAtomStatic.goals.title}
                         info={skillAtomStatic.goals.info}
                         points={goals} addPoint={addPoint("goals")}
+                        removePoint={removePoint("goals")}
                         addPLaceholder="Add Goal"
                         icon={skillAtomStatic.goals.icon}
                         onClick={() => setActivePart("Goal")}
@@ -57,6 +63,7 @@ export default function SkillAtom(props) {
                         top="0%" left="32%" title={skillAtomStatic.actions.title}
                         info={skillAtomStatic.actions.info}
                         points={actions} addPoint={addPoint("actions")}
+                        removePoint={removePoint("actions")}
                         addPLaceholder="Add Action/Object"
                         icon={skillAtomStatic.actions.icon}
                         onClick={() => setActivePart("Actions & Objects")}
@@ -67,6 +74,7 @@ export default function SkillAtom(props) {
                         top="36%" left="64%" title={skillAtomStatic.rules.title}
                         info={skillAtomStatic.rules.info}
                         points={rules} addPoint={addPoint("rules")}
+                        removePoint={removePoint("rules")}
                         addPLaceholder="Add Rule"
                         icon={skillAtomStatic.rules.icon}
                         onClick={() => setActivePart("Rules")}
@@ -77,6 +85,7 @@ export default function SkillAtom(props) {
                         top="72%" left="32%" title={skillAtomStatic.feedback.title}
                         info={skillAtomStatic.feedback.info}
                         points={feedback} addPoint={addPoint("feedback")}
+                        removePoint={removePoint("feedback")}
                         addPLaceholder="Add Feedback"
                         icon={skillAtomStatic.feedback.icon}
                         onClick={() => setActivePart("Feedback")}
@@ -87,6 +96,7 @@ export default function SkillAtom(props) {
                         top="36%" left="32%" title={skillAtomStatic.challenges.title}
                         info={skillAtomStatic.challenges.info}
                         points={challenges} addPoint={addPoint("challenges")}
+                        removePoint={removePoint("challenges")}
                         addPLaceholder="Add Challenge"
                         icon={skillAtomStatic.challenges.icon}
                         onClick={() => setActivePart("Challenge")}

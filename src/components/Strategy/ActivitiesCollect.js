@@ -1,15 +1,33 @@
-import React from 'react';
-import { Box, Typography, List, ListItem, ListItemText, Button } from '@mui/material';
+import React, {useState} from 'react';
+import { Box, Typography, List, ListItem, ListItemText, Button, ListItemIcon, IconButton } from '@mui/material';
 import AddText from '../Helper/AddText';
+import { Delete } from '@mui/icons-material';
+import WarningModal from './WarningModal';
 
 export default function ActivitiesCollect(props) {
 
+    const [open, setOpen] = useState(false);
+    const handePairCreationRequest = () => {
+        if (props.activityTargetPairs) {
+            setOpen(true);
+        } else {
+            props.generateActivityPairs();
+        }
+    }
+    const handleClose = () => setOpen(false);
+
     const renderActivities = () => {
         let activities = [];
-        for (let activity of props.activities) {
+        for (let index in props.activities) {
+            let activity = props.activities[index];
             activities.push(
                 <ListItem key={activity}>
                     <ListItemText primary={activity}/>
+                    <ListItemIcon>
+                        <IconButton onClick={() => props.removeActivity(index)} color="error">
+                            <Delete />
+                        </IconButton>
+                    </ListItemIcon>
                 </ListItem>
             )
         }
@@ -19,10 +37,16 @@ export default function ActivitiesCollect(props) {
 
     const renderTargetGroups = () => {
         let targetGroups = [];
-        for (let targetGroup of props.targetGroups) {
+        for (let index in props.targetGroups) {
+            let targetGroup = props.targetGroups[index];
             targetGroups.push(
                 <ListItem key={targetGroup}>
                     <ListItemText primary={targetGroup}/>
+                    <ListItemIcon>
+                        <IconButton onClick={() => props.removeTargetGroup(index)} color="error">
+                            <Delete />
+                        </IconButton>
+                    </ListItemIcon>
                 </ListItem>
             )
         }
@@ -52,7 +76,10 @@ export default function ActivitiesCollect(props) {
                     </List>
                 </Box>
             </Box>
-            <Button variant="contained" onClick={props.generateActivityPairs}>Create Pairs</Button>
+            <Button variant="contained" onClick={handePairCreationRequest}>Create Pairs</Button>
+            <WarningModal
+                open={open} handleClose={handleClose} execute={props.generateActivityPairs}
+            />
         </Box>
     )
 }

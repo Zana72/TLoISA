@@ -8,13 +8,8 @@ export default function GamificationFit(props) {
     const [activePrio, setActivePrio] = useState(0);    
     
     const handleToggle = (value) => () => {
-        for (let bp in props.behaviourChain) {
-            if (props.behaviourChain[bp].priority === activePrio) {
-                let activeBehaviourPart = props.behaviourChain[bp];
-                props.handleBcFit(activePrio, value, !activeBehaviourPart.fitAnswers[value]);
-                return;
-            }
-        }
+        let activeBehaviourPart = props.behaviourChain[activePrio];
+        props.handleBcFit(activePrio, value, !activeBehaviourPart.fitAnswers[value]);
     };
 
     const checkIfFit = (fitAnswers) => {
@@ -34,38 +29,31 @@ export default function GamificationFit(props) {
 
     const moveToNextBcPart = () => {
         if (activePrio < Object.keys(props.behaviourChain).length - 1) {
-            setActivePrio(activePrio+1);
+            setActivePrio(parseInt(activePrio)+1);
         } else {
             setActivePrio(0);
         }
     }
 
     const isChecked = (number) => {
-        for (let bp in props.behaviourChain) {
-            if (props.behaviourChain[bp].priority === activePrio) {
-                let activeBehaviourPart = props.behaviourChain[bp];
-                if (activeBehaviourPart.fitAnswers) {
-                    return (
-                        activeBehaviourPart.fitAnswers[number]
-                    )
-                } else return false;
-            }
-        }
+        console.log(activePrio);
+        let activeBehaviourPart = props.behaviourChain[activePrio];
+        if (activeBehaviourPart.fitAnswers) {
+            return (
+                activeBehaviourPart.fitAnswers[number]
+            )
+        } else return false;
     } 
 
     const renderBcPart = () => {
 
-        for (let bp in props.behaviourChain) {
-            if (props.behaviourChain[bp].priority === activePrio) {
-                let activeBehaviourPart = props.behaviourChain[bp];
-                if (activeBehaviourPart && activeBehaviourPart.name !== undefined) {
-                    return <BcPart name={activeBehaviourPart.name} motivations={activeBehaviourPart.motivations}
-                            hurdles={activeBehaviourPart.hurdles} key={activePrio}
-                    />
-                } else {
-                    return <Typography key={activePrio}>There is not active behaviour part</Typography>
-                }
-            }
+        let activeBehaviourPart = props.behaviourChain[activePrio];
+        if (activeBehaviourPart && activeBehaviourPart.name !== undefined) {
+            return <BcPart name={activeBehaviourPart.name} motivations={activeBehaviourPart.motivations}
+                    hurdles={activeBehaviourPart.hurdles} key={activePrio}
+            />
+        } else {
+            return <Typography key={activePrio}>There is not active behaviour part</Typography>
         }
     }
 
@@ -73,9 +61,9 @@ export default function GamificationFit(props) {
         let activities = [];
         let elevation;
 
-        for (let key in props.behaviourChain) {
-            let bcPart = props.behaviourChain[key];
-            if (bcPart.priority === activePrio) {
+        for (let index in props.behaviourChain) {
+            let bcPart = props.behaviourChain[index];
+            if (index === activePrio) {
                 elevation = 6
             } else {
                 elevation = 1
@@ -83,9 +71,9 @@ export default function GamificationFit(props) {
             if (checkIfFit(bcPart.fitAnswers) === 0) {
                 activities.push(
                     <Paper sx={{bgcolor: grey[200], p: 0.8, ml: 1,
-                        "&:hover": { cursor: "pointer"}}} elevation={elevation} key={key}
+                        "&:hover": { cursor: "pointer"}}} elevation={elevation} key={index}
                     >
-                        <Typography onClick={() => {setActivePrio(bcPart.priority)}}
+                        <Typography onClick={() => {setActivePrio(index)}}
                         >{bcPart.name}</Typography>
 
                     </Paper>
@@ -93,9 +81,9 @@ export default function GamificationFit(props) {
             } else if (checkIfFit(bcPart.fitAnswers) === 1) {
                 activities.push(
                     <Paper sx={{bgcolor: yellow[200], p: 0.8, ml: 1,
-                            "&:hover": { cursor: "pointer"}}} elevation={elevation} key={key} 
+                            "&:hover": { cursor: "pointer"}}} elevation={elevation} key={index} 
                     >
-                        <Typography onClick={() => {setActivePrio(bcPart.priority)}}
+                        <Typography onClick={() => {setActivePrio(index)}}
                         >{bcPart.name}</Typography>
 
                     </Paper>
@@ -103,9 +91,9 @@ export default function GamificationFit(props) {
             } else {
                 activities.push(
                     <Paper sx={{bgcolor: green[200], p: 0.8, ml: 1,
-                        "&:hover": { cursor: "pointer"}}} elevation={elevation} key={key} 
+                        "&:hover": { cursor: "pointer"}}} elevation={elevation} key={index} 
                     >
-                        <Typography onClick={() => {setActivePrio(bcPart.priority)}}
+                        <Typography onClick={() => {setActivePrio(index)}}
                         >{bcPart.name}</Typography>
 
                     </Paper>
@@ -164,10 +152,6 @@ export default function GamificationFit(props) {
                         </ListItem>
                     </List>
                 </Grid>
-                {/* <Grid item xs={3}>
-                    <Typography sx={{fontWeight: 500, mb: 1}}>Tipp: </Typography>
-
-                </Grid> */}
             </Grid>
         </Box>
     )

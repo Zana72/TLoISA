@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
-import { Box, Typography, Paper } from '@mui/material';
-import Draggable from 'react-draggable';
+import { Box, Typography } from '@mui/material';
 import AddText from '../Helper/AddText';
 import FinalIdeas from './FinalIdeas';
 import CanvasIdea from './CanvasIdea';
-
-const draggableStyle = {
-    "&:hover": {
-        cursor: "move",
-    },
-}
+import CanvasGroup from './CanvasGroup';
 
 export default function Clustering(props) {
 
@@ -56,17 +50,10 @@ export default function Clustering(props) {
         for (let group in props.activeCanvas.groups) {
             const thisGroup = props.activeCanvas.groups[group];
             textCss.push(
-                <Draggable bounds="parent" grid={[20, 20]} position={thisGroup.pos}  key={thisGroup.id}
-                            onStop={() => finishMove(thisGroup.id, "group")} onDrag={handleDrag}
-                            onStart={startMove}
-                >
-                    <Paper sx={{
-                        height: "fit-content", m: 2, p: 1, ...draggableStyle,
-                        minWidth: "10rem", bgcolor: "white"
-                    }} elevation={4}>
-                        <Typography align="center">{thisGroup.name}</Typography>
-                    </Paper>
-                </Draggable>
+                <CanvasGroup name={thisGroup.name} pos={thisGroup.pos} id={thisGroup.id} 
+                    key={thisGroup.id} handleDrag={handleDrag} startMove={startMove} finishMove={finishMove} 
+                    delete={() => {props.removeGroup(thisGroup.id)}}
+                />
             )
         }
 
@@ -82,7 +69,7 @@ export default function Clustering(props) {
             </Box>
             <Box sx={{display: "flex", position: "relative", width: "100rem", height: "100rem",
                 background: "linear-gradient(90deg, #eee 1%, transparent 1%) 1px 0, linear-gradient(0deg, #eee 1%, transparent 1%) 1px 0, #fff",
-                backgroundSize: "60px 60px"
+                backgroundSize: "60px 60px", overflow: "auto"
             }}>
                 {renderIdeas()}
                 {renderTexts()}

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Typography, Box, Card, CardHeader, CardContent, Divider, Paper } from '@mui/material';
+import { Typography, Box, Card, CardHeader, CardContent, Divider, Paper, IconButton, Tooltip } from '@mui/material';
 import AddText from '../Helper/AddText';
 import { green, red } from '@mui/material/colors';
+import { RemoveCircle } from '@mui/icons-material';
 
 export default function UserResearch(props) {
 
@@ -14,11 +15,13 @@ export default function UserResearch(props) {
 
         for (let index in props.behaviourChain) {
             let behaviourChain = props.behaviourChain[index];
-            BCparts[behaviourChain.priority] = <ChainPart key={index}
+            BCparts[index] = <ChainPart key={index}
                 name={behaviourChain.name} motivations={behaviourChain.motivations}
                 hurdles={behaviourChain.hurdles} 
                 addMotivator={name => props.addMotivator(name, index)}
                 addHurdle={name => props.addHurdle(name, index)} id={behaviourChain.id}
+                removeMotivator={motivIndex => props.removeMotivator(motivIndex, index)}
+                removeHurdle={hurdleIndex => props.removeHurdle(hurdleIndex, index)}
             />
         }
 
@@ -55,9 +58,17 @@ function ChainPart(props) {
 
         if (!props.motivations) return;
 
-        for (let motivator of props.motivations) {
+        for (let index in props.motivations) {
+            let motivator = props.motivations[index];
             motivators.push(
-                <Typography key={motivator}>- {motivator}</Typography>
+                <Box sx={{display: "flex", alignItems: "center"}} key={index}>
+                    <Tooltip title="Remove">
+                        <IconButton color="error" onClick={() => props.removeMotivator(index)}>
+                            <RemoveCircle/>
+                        </IconButton>
+                    </Tooltip>
+                    <Typography>{motivator}</Typography>
+                </Box>
             )
         }
 
@@ -69,9 +80,17 @@ function ChainPart(props) {
 
         if (!props.hurdles) return;
 
-        for (let hurdle of props.hurdles) {
+        for (let index in props.hurdles) {
+            let hurdle = props.hurdles[index];
             hurdles.push(
-                <Typography key={hurdle}>- {hurdle}</Typography>
+                <Box sx={{display: "flex", alignItems: "center"}} key={index}>
+                    <Tooltip title="Remove">
+                        <IconButton color="error" onClick={() => props.removeHurdle(index)}>
+                            <RemoveCircle/>
+                        </IconButton>
+                    </Tooltip>
+                    <Typography>{hurdle}</Typography>
+                </Box>
             )
         }
 
@@ -83,7 +102,7 @@ function ChainPart(props) {
             display: "flex", alignItems: "center", flexDirection: "column", height: "28rem",
                     width: "16rem", p: 1, m: 2
         }} elevation={6}>
-            <CardHeader sx={{mb: 1, m: 0}} title={props.name} titleTypographyProps={{variant:"h3"}}/>
+            <CardHeader sx={{mb: 1, m: 0}} title={props.name} titleTypographyProps={{variant:"h3", align: "center"}}/>
             <Divider/>
             <CardContent sx={{overflowY: "auto", p: 0, scrollbarWidth: "thin"}}>
                 <Paper sx={{bgcolor: green[100], p: 2, mb: 1}}>

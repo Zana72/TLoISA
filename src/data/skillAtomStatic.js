@@ -8,7 +8,7 @@ export const skillAtomStatic = {
     },
     goals: {
         title: "Goal",
-        info: "How does my system articulate these inherent challenges in goals? (How might it articulate them to connect to the user's motivations?)",
+        info: "How does my system articulate these inherent challenges in goals?", //(How might it articulate them to connect to the user's motivations?)
         icon: <GolfCourse/>
     },
     actions: {

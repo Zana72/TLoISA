@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import { TextField, Typography, Box, Button, IconButton, CardContent, Card } from '@mui/material';
-import { Add, ArrowBackIosNew, ArrowForwardIos, DoubleArrow } from '@mui/icons-material';
+import { TextField, Typography, Box, Button, IconButton, Card, Paper, CardHeader } from '@mui/material';
+import { Add, ArrowBackIosNew, ArrowForwardIos, Delete } from '@mui/icons-material';
 
 export default function BehaviourChain(props) {
 
@@ -11,25 +11,17 @@ export default function BehaviourChain(props) {
 
         let BCparts = [];
 
+        console.log(props.behaviourChain);
         for (let index in props.behaviourChain) {
             let behaviourChain = props.behaviourChain[index];
-            let priority = behaviourChain.priority;
-            if (priority !== 0) {
-                BCparts[behaviourChain.priority] = 
-                <Box key={priority} sx={{display: "flex", alignItems: "center"}}>
-                    <DoubleArrow/>
-                    <ChainPart key={behaviourChain.id} handleSwap={direction => props.handleSwap(priority, direction)}
-                        name={behaviourChain.name} id={behaviourChain.id}
-                    />
-                </Box>
-            } else {
-                BCparts[priority] = 
-                <Box key={priority} sx={{display: "flex", alignItems: "center"}}>
-                    <ChainPart key={behaviourChain.id} handleSwap={direction => props.handleSwap(priority, direction)}
-                        name={behaviourChain.name} id={behaviourChain.id}
-                    />
-                </Box>
-            }
+            BCparts[index] = 
+            <Box key={index} sx={{display: "flex", alignItems: "center"}}>
+                <ChainPart key={behaviourChain.id} handleSwap={direction => props.handleSwap(index, direction)}
+                    name={behaviourChain.name} id={behaviourChain.id} removeChainPart={() => props.removeChainPart(index)}
+                    isFirst={parseInt(index)===0} isLast={parseInt(index)===props.behaviourChain.length - 1}
+                    index={index}
+                />
+            </Box>
         }
 
         return BCparts;
@@ -67,47 +59,52 @@ function ChainPartAdder(props) {
     }
 
     return(
-        <Box sx={{
+        <Paper sx={{
             display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column",
-                     "borderStyle": "dashed", borderColor: "black", width: "15rem", p: 2, m: 2,
-                     "borderWidth": "2px", borderRadius: 2
+                     width: "15rem", p: 2, m: 2, ml: 5
         }}>
             <TextField value={name} onChange={e => setName(e.target.value)} variant="standard" placeholder="Activity/Behaviour" label="Activity/Behaviour"/>
             <Button onClick={addChainPart}
             disabled={disabledButton()} sx={{width: "100%", mt: 2}} variant="contained" startIcon={<Add/>}>Add</Button>
-        </Box>
+        </Paper>
     )
 }
 
 function ChainPart(props) {
 
-    return (  
-        <Card sx={{
-                    width: "15rem", p: 2, m: 2
-        }} elevation={4}>
-            <CardContent sx={{display: "flex", justifyContent: "space-evenly", alignItems: "center", flexDirection: "row"}}>
-
-                {
-                    !props.isFirst &&
-                    <IconButton
-                        onClick={() => {props.handleSwap("left")}}
-                    >
-                        <ArrowBackIosNew/>
-                    </IconButton>
-                }   
-                <Box>
-                    <Typography sx={{fontWeight: 500}}>{props.name}</Typography>
-                </Box>
-                {
-                    !props.isLast &&
-                    <IconButton
-                        onClick={() => {props.handleSwap("right")}}
-                    >
-                        <ArrowForwardIos/>
-                    </IconButton>
+    return (
+        <Box sx={{display: "flex", alignItems: "center"}}>
+            {
+                !props.isFirst &&
+                <IconButton
+                    onClick={() => {props.handleSwap("left")}}
+                >
+                    <ArrowBackIosNew/>
+                </IconButton>
+            } 
+            <Card sx={{
+                        width: "15rem", p: 2, m: 2
+            }} elevation={4}>
+                <CardHeader 
+                title={
+                    <Typography align="center" sx={{fontWeight: 500}}>{props.index}: {props.name}</Typography>
                 }
-            </CardContent>  
-        </Card>
+                action={
+                    <IconButton onClick={props.removeChainPart}>
+                        <Delete/>
+                    </IconButton>
+                }/>
+            </Card>
+            
+            {
+                !props.isLast &&
+                <IconButton
+                    onClick={() => {props.handleSwap("right")}}
+                >
+                    <ArrowForwardIos/>
+                </IconButton>
+            }
+        </Box>
     )
 
 }
