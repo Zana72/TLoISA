@@ -104,57 +104,61 @@ export default function GamificationFit(props) {
         return activities;
     }
 
-    return(
-        <Box>
-            <Typography variant="h2">Gamification Fit</Typography>
-            <Typography sx={{mb: 2}}>
-                Before you develop an ingenious Gameful Design, you should determined if this actually helps to achieve your goals.
-                All four of the following questions should be answered positively in order to evaluate a sub-activity as suitable.
-            </Typography>
-            <Grid container>
-                <Grid item xs={9} sx={{}}>
-                    <Box sx={{display: "flex", mb: 2, ml: 2}}>
-                        <Typography sx={{mr: 1}}>Target Activity:</Typography>
-                        <Typography sx={{fontWeight: 500}}>{props.targetActivity} / {props.targetGroup}</Typography>
-                    </Box>
-                    <Box sx={{display: "flex", m: 1, flexWrap: "wrap"}}>
-                        {renderActivities()}
-                    </Box>
-                    <Box sx={{display: "flex", m: 2}}>
-                        {renderBcPart()}
-                        <IconButton onClick={moveToNextBcPart}><ArrowForwardSharp/></IconButton>
-                    </Box>
-                    <List>
-                        <ListItem>
-                            <ListItemIcon onClick={handleToggle(0)}>
-                                <Checkbox edge="start" checked={isChecked(0)}/>
-                            </ListItemIcon>
-                            <ListItemText primary="Does the activity connect to an actual user need?"/>
-                        </ListItem>
-                        <ListItem>
-                            <ListItemIcon onClick={handleToggle(1)}>
-                                <Checkbox edge="start" checked={isChecked(1)}/>
-                            </ListItemIcon>
-                            <ListItemText primary="Is lacking motivation a central issue or opportunity (and not, e.g., poor usability)?"/>
-                        </ListItem>
-                        <ListItem>
-                            <ListItemIcon onClick={handleToggle(2)}>
-                                <Checkbox edge="start" checked={isChecked(2)}/>
-                            </ListItemIcon>
-                            <ListItemText primary="Does the target activity involve an inherent challenge with a learnable skill?"/>
-                        </ListItem>
-                        <ListItem>
-                            <ListItemIcon onClick={handleToggle(3)}>
-                                <Checkbox edge="start" checked={isChecked(3)}/>
-                            </ListItemIcon>
-                            <ListItemText primary="Is affording experiences of competence the most effective and efficient way of improving motivation 
-                                                    (and not, e.g., defusing fears)?"/>
-                        </ListItem>
-                    </List>
+    if (Object.keys(props.behaviourChain).length > 0) {
+        return(
+            <Box>
+                <Typography variant="h2">Gamification Fit</Typography>
+                <Typography sx={{mb: 2}}>
+                    Before you develop an ingenious Gameful Design, you should determined if this actually helps to achieve your goals.
+                    All four of the following questions should be answered positively in order to evaluate a sub-activity as suitable.
+                </Typography>
+                <Grid container>
+                    <Grid item xs={9} sx={{}}>
+                        <Box sx={{display: "flex", mb: 2, ml: 2}}>
+                            <Typography sx={{mr: 1}}>Target Activity:</Typography>
+                            <Typography sx={{fontWeight: 500}}>{props.targetActivity} / {props.targetGroup}</Typography>
+                        </Box>
+                        <Box sx={{display: "flex", m: 1, flexWrap: "wrap"}}>
+                            {renderActivities()}
+                        </Box>
+                        <Box sx={{display: "flex", m: 2}}>
+                            {renderBcPart()}
+                            <IconButton onClick={moveToNextBcPart}><ArrowForwardSharp/></IconButton>
+                        </Box>
+                        <List>
+                            <ListItem>
+                                <ListItemIcon onClick={handleToggle(0)}>
+                                    <Checkbox edge="start" checked={isChecked(0)}/>
+                                </ListItemIcon>
+                                <ListItemText primary="Does the activity connect to an actual user need?"/>
+                            </ListItem>
+                            <ListItem>
+                                <ListItemIcon onClick={handleToggle(1)}>
+                                    <Checkbox edge="start" checked={isChecked(1)}/>
+                                </ListItemIcon>
+                                <ListItemText primary="Is lacking motivation a central issue or opportunity (and not, e.g., poor usability)?"/>
+                            </ListItem>
+                            <ListItem>
+                                <ListItemIcon onClick={handleToggle(2)}>
+                                    <Checkbox edge="start" checked={isChecked(2)}/>
+                                </ListItemIcon>
+                                <ListItemText primary="Does the target activity involve an inherent challenge with a learnable skill?"/>
+                            </ListItem>
+                            <ListItem>
+                                <ListItemIcon onClick={handleToggle(3)}>
+                                    <Checkbox edge="start" checked={isChecked(3)}/>
+                                </ListItemIcon>
+                                <ListItemText primary="Is affording experiences of competence the most effective and efficient way of improving motivation 
+                                                        (and not, e.g., defusing fears)?"/>
+                            </ListItem>
+                        </List>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </Box>
-    )
+            </Box>
+        )
+    } else {
+        return <Typography>You need to set up a behaviour chain before you can do this step.</Typography>
+    }
 }
 
 function BcPart(props) {
