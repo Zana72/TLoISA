@@ -43,10 +43,10 @@ function App() {
   const localIdeas = localStorage.getItem("ideas");
   const localCanvas = localStorage.getItem("canvas");
 
-  const [goal, setGoal] = useState(localGoal ? localGoal : "");
-  const [metric, setMetric] = useState(localMetric ? localMetric : "");
-  const [activities, setActivities] = useState(localActivities ? JSON.parse(localActivities) : []);
-  const [targetGroups, setTargetGroups] = useState(localTargetGroups ? JSON.parse(localTargetGroups) : []);
+  const [goal, setGoal] = useState(localGoal ? localGoal : "Increase number of students that use calendar app regularly");
+  const [metric, setMetric] = useState(localMetric ? localMetric : "Number of students using the app for more than 2 weeks");
+  const [activities, setActivities] = useState(localActivities ? JSON.parse(localActivities) : ["create appointment"]);
+  const [targetGroups, setTargetGroups] = useState(localTargetGroups ? JSON.parse(localTargetGroups) : ["student"]);
   // const [contexts, setContexts] = useState([]);
   // const [requirements, setRequirements] = useState([]);
   
