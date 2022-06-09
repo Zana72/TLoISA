@@ -28,7 +28,7 @@ export const skillAtomStatic = {
     },
     challenges: {
         title: "Challenge",
-        info: "What challenges are inherent in the activity? What challenges can be removed through automation or improving usability? What challenges remain that the user can learn to get better at?",
+        info: "What challenges are inherent in the activity? What challenges can be removed through automation or improving usability?",
         icon: <Hiking />
     }
 }

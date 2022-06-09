@@ -51,7 +51,7 @@ export default function SkillAtomPartStatic(props) {
 
         for (let point of props.points) {
             elements.push(
-                <Typography key={point}>{point}</Typography>
+                <Typography align="center" key={point}>- {point}</Typography>
             )
         }
 
