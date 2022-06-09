@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import {Box, Button, Paper, Typography} from '@mui/material';
+import React from 'react';
+import {Box, Paper, Typography} from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { grey } from '@mui/material/colors';
-import uploadLocalStorage from '../../uploadLocalStorage';
 
 const entryStyle = {
     p: 1, 
@@ -34,7 +33,7 @@ export default function NavBar() {
     const navigate = useNavigate();
     let location = useLocation();
 
-    const [uploadDisabled, setUploadDisabled] = useState(false);
+    // const [uploadDisabled, setUploadDisabled] = useState(false);
 
     const handleNavigation = (link) => {
         navigate(link);
@@ -52,10 +51,10 @@ export default function NavBar() {
         }
     }
 
-    const uploadData = () => {
-        uploadLocalStorage();
-        setUploadDisabled(true);
-    }
+    // const uploadData = () => {
+    //     uploadLocalStorage();
+    //     setUploadDisabled(true);
+    // }
 
     return(
         <Paper sx={{m: 3, p: 2, minWidth: "15rem", height: "fit-content"}}>
@@ -85,9 +84,9 @@ export default function NavBar() {
                 <Typography sx={determineStyle("/ideation/focusquestions")} onClick={() => handleNavigation("/ideation/focusquestions")}>Focus Questions</Typography>
                 <Typography sx={determineStyle("/ideation/clustering")} onClick={() => handleNavigation("/ideation/clustering")}>Cluster & Finalize Ideas</Typography>
             </Box>
-            <Button disabled={uploadDisabled} sx={{width: "100%"}} variant="contained"
+            {/* <Button disabled={uploadDisabled} sx={{width: "100%"}} variant="contained"
                 onClick={uploadData}
-            >Submit</Button>
+            >Submit</Button> */}
         </Paper>
     )
 }

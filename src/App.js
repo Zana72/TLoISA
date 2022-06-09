@@ -43,22 +43,18 @@ function App() {
   const localIdeas = localStorage.getItem("ideas");
   const localCanvas = localStorage.getItem("canvas");
 
-  const [goal, setGoal] = useState(localGoal ? localGoal : "Increase number of students that use calendar app regularly");
-  const [metric, setMetric] = useState(localMetric ? localMetric : "Number of students using the app for more than 2 weeks");
-  const [activities, setActivities] = useState(localActivities ? JSON.parse(localActivities) : ["create appointment"]);
-  const [targetGroups, setTargetGroups] = useState(localTargetGroups ? JSON.parse(localTargetGroups) : ["student"]);
+  const [goal, setGoal] = useState(localGoal ? localGoal : "");
+  const [metric, setMetric] = useState(localMetric ? localMetric : "");
+  const [activities, setActivities] = useState(localActivities ? JSON.parse(localActivities) : []);
+  const [targetGroups, setTargetGroups] = useState(localTargetGroups ? JSON.parse(localTargetGroups) : []);
   
-  const [activeActivity, setActiveActivity] = useState(localActiveActivity ? JSON.parse(localActiveActivity) : {"id":"c984f5dc-ff51-48d8-9f79-af517da6e77e","priority":0,"targetGroup":"student","activity":"create appointment"});
+  const [activeActivity, setActiveActivity] = useState(localActiveActivity ? JSON.parse(localActiveActivity) : {});
   
   const [behaviourChains, bcsDispatch] = useReducer(bcsReducer, localBehaviourChains ? JSON.parse(localBehaviourChains) : {});
   const [synthesis, synthDispatch] = useReducer(synthReducer, localSynthesis ? JSON.parse(localSynthesis) : {});
-  const [activityTargetPairs, atpDispatch] = useReducer(atpReducer, localActivityTargetPairs ? JSON.parse(localActivityTargetPairs) : [{"id":"c984f5dc-ff51-48d8-9f79-af517da6e77e","priority":0,"targetGroup":"student","activity":"create appointment"}]);
+  const [activityTargetPairs, atpDispatch] = useReducer(atpReducer, localActivityTargetPairs ? JSON.parse(localActivityTargetPairs) : []);
   const [ideas, ideasDispatch] = useReducer(ideasReducer, localIdeas ? JSON.parse(localIdeas) : {});
   const [canvas, canvasDispatch] = useReducer(canvasReducer, localCanvas ? JSON.parse(localCanvas) : {});
-
-  // useEffect(() => {
-  //   console.log(localStorage);
-  // }, []);
 
   useEffect(() => {
     localStorage.setItem("ideas", JSON.stringify(ideas));
