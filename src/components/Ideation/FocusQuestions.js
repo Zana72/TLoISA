@@ -49,7 +49,7 @@ export default function FocusQuestions(props) {
                         m: 2, bgcolor: "secondary.light", p: 2, maxWidth:"12rem", height: "fit-content",
                         display: "flex", alignItems: "center", justifyContent: "space-between"
                     }} elevation={4}>
-                        <Typography>{idea.name}</Typography>
+                        <Typography align="center">{idea.name}</Typography>
                         <IconButton onClick={
                             () => {props.removeIdea(activeLens.title, index)}
                         }>

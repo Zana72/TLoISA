@@ -62,14 +62,14 @@ export default function Clustering(props) {
 
     return(
         <Box sx={{position: "relative"}}>
-            <FinalIdeas  top="1rem" right="2rem"/>
+            {/* <FinalIdeas  top="1rem" right="2rem"/> */}
             <Typography variant="h2">Clustering</Typography>
             <Box sx={{position: "absolute", top: 0, right: "4rem"}}>
                 <AddText placeholder="New Title" onAdd={props.addGroup} />
             </Box>
             <Box sx={{display: "flex", position: "relative", width: "100rem", height: "100rem",
                 background: "linear-gradient(90deg, #eee 1%, transparent 1%) 1px 0, linear-gradient(0deg, #eee 1%, transparent 1%) 1px 0, #fff",
-                backgroundSize: "60px 60px", overflow: "auto"
+                backgroundSize: "60px 60px", overflow: "auto", flexWrap: "wrap"
             }}>
                 {renderIdeas()}
                 {renderTexts()}

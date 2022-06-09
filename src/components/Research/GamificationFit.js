@@ -95,7 +95,6 @@ export default function GamificationFit(props) {
                     >
                         <Typography onClick={() => {setActivePrio(index)}}
                         >{bcPart.name}</Typography>
-
                     </Paper>
                 )
             }
@@ -104,7 +103,7 @@ export default function GamificationFit(props) {
         return activities;
     }
 
-    if (Object.keys(props.behaviourChain).length > 0) {
+    if (props.behaviourChain && Object.keys(props.behaviourChain).length > 0) {
         return(
             <Box>
                 <Typography variant="h2">Gamification Fit</Typography>
@@ -125,7 +124,7 @@ export default function GamificationFit(props) {
                             {renderBcPart()}
                             <IconButton onClick={moveToNextBcPart}><ArrowForwardSharp/></IconButton>
                         </Box>
-                        <List>
+                        <List sx={{maxWidth: "40rem"}}>
                             <ListItem>
                                 <ListItemIcon onClick={handleToggle(0)}>
                                     <Checkbox edge="start" checked={isChecked(0)}/>

@@ -47,14 +47,12 @@ function App() {
   const [metric, setMetric] = useState(localMetric ? localMetric : "Number of students using the app for more than 2 weeks");
   const [activities, setActivities] = useState(localActivities ? JSON.parse(localActivities) : ["create appointment"]);
   const [targetGroups, setTargetGroups] = useState(localTargetGroups ? JSON.parse(localTargetGroups) : ["student"]);
-  // const [contexts, setContexts] = useState([]);
-  // const [requirements, setRequirements] = useState([]);
   
-  const [activeActivity, setActiveActivity] = useState(localActiveActivity ? JSON.parse(localActiveActivity) : {});
+  const [activeActivity, setActiveActivity] = useState(localActiveActivity ? JSON.parse(localActiveActivity) : {"id":"c984f5dc-ff51-48d8-9f79-af517da6e77e","priority":0,"targetGroup":"student","activity":"create appointment"});
   
   const [behaviourChains, bcsDispatch] = useReducer(bcsReducer, localBehaviourChains ? JSON.parse(localBehaviourChains) : {});
   const [synthesis, synthDispatch] = useReducer(synthReducer, localSynthesis ? JSON.parse(localSynthesis) : {});
-  const [activityTargetPairs, atpDispatch] = useReducer(atpReducer, localActivityTargetPairs ? JSON.parse(localActivityTargetPairs) : []);
+  const [activityTargetPairs, atpDispatch] = useReducer(atpReducer, localActivityTargetPairs ? JSON.parse(localActivityTargetPairs) : [{"id":"c984f5dc-ff51-48d8-9f79-af517da6e77e","priority":0,"targetGroup":"student","activity":"create appointment"}]);
   const [ideas, ideasDispatch] = useReducer(ideasReducer, localIdeas ? JSON.parse(localIdeas) : {});
   const [canvas, canvasDispatch] = useReducer(canvasReducer, localCanvas ? JSON.parse(localCanvas) : {});
 

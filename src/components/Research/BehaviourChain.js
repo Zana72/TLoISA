@@ -11,7 +11,6 @@ export default function BehaviourChain(props) {
 
         let BCparts = [];
 
-        console.log(props.behaviourChain);
         for (let index in props.behaviourChain) {
             let behaviourChain = props.behaviourChain[index];
             BCparts[index] = 
