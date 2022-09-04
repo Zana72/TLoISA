@@ -39,7 +39,7 @@ export default function CanvasGroup(props) {
                     }} elevation={4}
                     aria-haspopup="true"
                 >
-                    <Typography align="center">{props.name}</Typography>
+                    <Typography align="center" sx={{fontSize: 18, fontWeight: 500}}>{props.name}</Typography>
                 </Paper>
                 <Button sx={{opacity: showDeleter ? "100%": "0%"}}
                     onClick={props.delete} color="error"

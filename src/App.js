@@ -8,7 +8,7 @@ import Strategy from './components/Strategy/Strategy';
 import GoalsAndMetrics from './components/Strategy/GoalsAndMetrics';
 import Home from './components/Home';
 import GroupAndActivities from './components/Strategy/GroupAndActivities';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import NavBar from './components/Main/NavBar';
 import Research from './components/Research/Research';
 import BehaviourChain from './components/Research/BehaviourChain';
@@ -259,6 +259,9 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Box sx={{mt: 5, ml: 90, mb: 2}}>
+        <Typography variant="h1">Gamification Design Tool</Typography>
+      </Box>
       <Box sx={{display: "flex"}}>
         <NavBar />
         <Box sx={{width: "100%"}}>
